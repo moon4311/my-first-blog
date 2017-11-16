@@ -4,5 +4,6 @@ __pycache__
 myvenv
 
 /static
+/bower_components
 .DS_Store
 start_Django.cmd

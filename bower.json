@@ -1,0 +1,25 @@
+{
+  "name": "djangogirls",
+  "homepage": "https://github.com/moon4311/my-first-blog",
+  "authors": [
+    "moon4311 <moon4311@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "install": {
+    "path": {
+      "css": "static/css",
+      "js": "static/js"
+    }
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "angular": "^1.6.5"
+  }
+}

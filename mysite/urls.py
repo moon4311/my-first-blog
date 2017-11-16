@@ -21,11 +21,7 @@ from django.contrib.auth import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-<<<<<<< HEAD
-    url(r'^accounts/login/$', views.login),
-=======
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
->>>>>>> c32242e62484121a0fc332d340608ee3d2d60dec
     url(r'',include('blog.urls')),
 ]

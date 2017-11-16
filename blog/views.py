@@ -2,13 +2,9 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
-from .models import Post
-from .forms import PostForm
-=======
+
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
->>>>>>> c32242e62484121a0fc332d340608ee3d2d60dec
 
 # Create your views here.
 
@@ -55,29 +51,17 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
 @login_required
-<<<<<<< HEAD
-def post_publish(request, pk):
-    post = get_object_or_404(Post,pk=pk)
-    post.publish()
-    return redirect('post_detail',pk=pk)
-=======
+
 def post_publish(request,pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
     return redirect('post_detail', pk=pk)
->>>>>>> c32242e62484121a0fc332d340608ee3d2d60dec
 
 def publish(self):
     self.published_date = timezone.now()
     self.save()
 
 @login_required
-<<<<<<< HEAD
-def post_remove(request,pk):
-    post = get_object_or_404(Post,pk=pk)
-    post.delete()
-    return redirect('post_list')
-=======
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
@@ -107,4 +91,3 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
->>>>>>> c32242e62484121a0fc332d340608ee3d2d60dec

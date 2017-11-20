@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'',include('blog.urls')),
+    url(r'^',include('django.contrib.auth.urls')),
+    url(r'^change-password/$', views.password_change),
 ]

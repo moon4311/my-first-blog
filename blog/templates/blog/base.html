@@ -2,9 +2,9 @@
 <html>
     <head>
         <title>Django Girls blog</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>-->
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
    <body>
@@ -22,39 +22,21 @@
                             <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
                             <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
                         {% else %}
-                            <a href="{% url 'login' %}" clas="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-
+                        <!-- a href="{% url 'login' %}" clas="top-menu"><span class="glyphicon glyphicon-lock"></span></a -->
                         <li class="navbar__link"><a class="md-trigger" href="#modal-login" data-modal="modal-login">Login</a></li>
                         <li class="navbar__link"><a class="md-trigger" href="#modal-signup" data-modal="modal-signup">Sign up</a></li>
                         <li class="navbar__link"><a href="/en-us/about">About</a></li>
-                        <li class="navbar__link"><a href="/en-us/help">Support</a></li>
+                        <li class="navbar__link"><a href="/post/">Post</a></li>
                         {% endif %}
                     </ul>
                 </div>
             </nav>
         </div>
-
-
-        <div class="page-header">
-           {% if user.is_authenticated %}
-                <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-                <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-                <p class="top-menu">Hello  {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
-           {% else %}
-                <a href="{% url 'login' %}" clas="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-           {% endif %}
-                <h1><a href="/">Django Girls Blog</a></h1>
+        <div  class="main">
+            {% block content %}
+            {% endblock %}
         </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-                </div>
-            </div>
-        </div>
-
-                            <div class="md-modal-xs md-effect-1" id="modal-login">
+        <div class="md-modal-xs md-effect-1" id="modal-login">
                                 <div class="md-content-xs ">
                                     <button type="button" class="md-close btn-none"><i class="fa fa-times fa-lg" aria-hidden="true"></i>
                                     </button>
@@ -134,7 +116,6 @@
                                     </div>
                                 </div>
                             </div>
-
         <div class="md-modal-xs md-effect-1" id="modal-signup">
             <div class="md-content-xs ">
                 <button type="button" class="md-close btn-none"><i class="fa fa-times fa-lg" aria-hidden="true"></i>
@@ -201,8 +182,12 @@
             </div>
         </div>
         <div class="md-overlay"></div>
-   <script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
-   <script type="text/javascript" src="{% static 'js/modalEffects.js' %}"></script>
-   <script type="text/javascript" src="{% static 'js/global.js' %}"></script>
+
+       <script type="text/javascript" src="{% static 'js/jquery-2.2.2.min.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/authform.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/auth_modals.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/modalEffects.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/global.js' %}"></script>
     </body>
 </html>

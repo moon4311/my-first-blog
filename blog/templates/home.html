@@ -1,105 +1,92 @@
 {% extends 'blog/base.html' %}
 
-
                     {% block content%}
-                        {% for home in homes%}
-<div class="main">
-
-
-<div class="section-definer-dark">
-  <section class="section-resized">
-    <div class="row center-xs">
-      <div class="col-xs-9 col-lg-6">
-        <p class="title spacing-l text-lightest">GET ENCRYPTED DATA FROM PEOPLE THAT DON'T KNOW HOW TO ENCRYPT</p>
-        <p class="text text-light">No more sharing of passwords in plain text.
-          <br>Send your Hawkpost link, and receive the confidential information encrypted in your inbox. It's that easy.
-        </p>
-        <!--<div class="span"><a class="scroll" href="#sec_1"><span>  </span></a></div> -->
-      </div>
-    </div>
-  </section>
-</div>
-
-
-<div class="section-definer-light text-darkest">
-  <div class=" h-section section-resized" id="sec_1">
-    <div class="row middle-xs">
-      <div class="col-xs-12 col-md-12 center-xs">
-        <h3 class="title">HOW DOES IT WORK?</h3>
-      </div>
-      <div class="how-container row center-xs">
-        <div class="col-xs-12 col-sm-4 cont-space">
-          <div class="center-xs middle-xs">
-            <img src="/static/images/icon1.870238ce4f26.svg" class="how-img">
-          </div>
-          <p class="smalltext text-darkest">Sign up and register your PGP key.</p>
-        </div>
-        <div class="col-xs-12 col-sm-4 cont-space">
-          <div class="center-xs middle-xs">
-            <img src="/static/images/icon2.b69fb85a22b3.svg " class="how-img">
-          </div>
-          <p class="smalltext text-darkest">Send your Hawkpost link to the person that wants to share confidential information with you. Wait for the information to be submitted.</p>
-        </div>
-        <div class="col-xs-12 col-sm-4 cont-space">
-          <div class="center-xs middle-xs">
-            <img src="/static/images/icon3.63cba086add9.svg" class="how-img">
-          </div>
-          <p class="smalltext text-darkest">Our hawk will deliver the message, now encrypted with your PGP key, to your e-mail.</p>
-        </div>
-      </div>
-    </div>
-    <div class="row center-xs">
-      <div class="col-xxs-12 col-xs-10 col-sm-5 col-lg-5">
-        <a class="h-button md-trigger smalltext" data-modal="modal-signup">Yup, this is for me</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="section-definer-dark faq__container">
-  <section class="h-section section-resized">
-    <div class="col-xs-12 center-xs start-sm start-lg">
-      <h3 class="title text-lightest">FAQ</h3>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-sm-6">
-        <div class="faq__box" tabindex="1">
-          <p class="faq__title textbold text-lightest">Why should I use Hawkpost?</p>
-          <p class="faq__text smalltext">Hawkpost is the easiest way to securely receive sensible information from people who don't know how to use PGP (ex: passwords, private keys, confidential messages). Share your Hawkpost link with them, and they're able to send info securely, <b>without installing any software</b>.</p>
-        </div>
-        <div class="faq__box" tabindex="1">
-          <p class="faq__title textbold text-lightest">How does it work behind the curtain?</p>
-          <p class="faq__text smalltext">The concept is simple, you generate an unique link on Hawkpost, then you share it with someone that needs to send you secret information. When that person visits your Hawkpost link and submits the sensitive data, this is encrypted <b>in their browser</b> with the PGP public key you used on signup. The encrypted message is sent by our hawks to your email. This means that we're not able to see the original message, and no message is stored.</p>
-        </div>
-      </div>
-      <div class=" col-xs-12 col-sm-6">
-        <div class="faq__box" tabindex="1">
-          <p class="faq__title textbold text-lightest">Is my link permanently available?</p>
-          <p class="faq__text smalltext">No, at the momment you can create as many unique links as you want, one for each occasion. You can set an expiration date for each one. However, other configuration options will be added soon, so you can better adapt the functionality to your use cases.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-
-<div class="section-definer-blue">
-  <section class="h-section section-resized">
-    <div class="row center-xs">
-      <div class="col-xs-12 ">
-        <h3 class="title text-lightest">Ready to start?</h3>
-      </div>
-    </div>
-    <div class="row center-xs">
-      <div class="col-xs-12">
-        <button class="h-button-white smalltext md-trigger" data-modal="modal-signup">Sign Up</button>
-      </div>
-    </div>
-  </section>
-</div>
-
-
-  </div>
-                        {% endfor %}
+                              <div class="section-definer-dark">
+                            <section class="section-resized">
+                              <div class="row center-xs">
+                                <div class="col-xs-9 col-lg-6">
+                                  <p class="title spacing-l text-lightest">GET ENCRYPTED DATA FROM PEOPLE THAT DON'T KNOW HOW TO ENCRYPT</p>
+                                  <p class="text text-light">No more sharing of passwords in plain text.
+                                    <br>Send your Hawkpost link, and receive the confidential information encrypted in your inbox. It's that easy.
+                                  </p>
+                                  <!--<div class="span"><a class="scroll" href="#sec_1"><span>  </span></a></div> -->
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                              <div class="section-definer-light text-darkest">
+                            <div class=" h-section section-resized" id="sec_1">
+                              <div class="row middle-xs">
+                                <div class="col-xs-12 col-md-12 center-xs">
+                                  <h3 class="title">HOW DOES IT WORK?</h3>
+                                </div>
+                                <div class="how-container row center-xs">
+                                  <div class="col-xs-12 col-sm-4 cont-space">
+                                    <div class="center-xs middle-xs">
+                                      <img src="/static/images/icon1.870238ce4f26.svg" class="how-img">
+                                    </div>
+                                    <p class="smalltext text-darkest">Sign up and register your PGP key.</p>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-4 cont-space">
+                                    <div class="center-xs middle-xs">
+                                      <img src="/static/images/icon2.b69fb85a22b3.svg " class="how-img">
+                                    </div>
+                                    <p class="smalltext text-darkest">Send your Hawkpost link to the person that wants to share confidential information with you. Wait for the information to be submitted.</p>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-4 cont-space">
+                                    <div class="center-xs middle-xs">
+                                      <img src="/static/images/icon3.63cba086add9.svg" class="how-img">
+                                    </div>
+                                    <p class="smalltext text-darkest">Our hawk will deliver the message, now encrypted with your PGP key, to your e-mail.</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row center-xs">
+                                <div class="col-xxs-12 col-xs-10 col-sm-5 col-lg-5">
+                                  <a class="h-button md-trigger smalltext" data-modal="modal-signup">Yup, this is for me</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                              <div class="section-definer-dark faq__container">
+                            <section class="h-section section-resized">
+                              <div class="col-xs-12 center-xs start-sm start-lg">
+                                <h3 class="title text-lightest">FAQ</h3>
+                              </div>
+                              <div class="row">
+                                <div class="col-xs-12 col-sm-6">
+                                  <div class="faq__box" tabindex="1">
+                                    <p class="faq__title textbold text-lightest">Why should I use Hawkpost?</p>
+                                    <p class="faq__text smalltext">Hawkpost is the easiest way to securely receive sensible information from people who don't know how to use PGP (ex: passwords, private keys, confidential messages). Share your Hawkpost link with them, and they're able to send info securely, <b>without installing any software</b>.</p>
+                                  </div>
+                                  <div class="faq__box" tabindex="1">
+                                    <p class="faq__title textbold text-lightest">How does it work behind the curtain?</p>
+                                    <p class="faq__text smalltext">The concept is simple, you generate an unique link on Hawkpost, then you share it with someone that needs to send you secret information. When that person visits your Hawkpost link and submits the sensitive data, this is encrypted <b>in their browser</b> with the PGP public key you used on signup. The encrypted message is sent by our hawks to your email. This means that we're not able to see the original message, and no message is stored.</p>
+                                  </div>
+                                </div>
+                                <div class=" col-xs-12 col-sm-6">
+                                  <div class="faq__box" tabindex="1">
+                                    <p class="faq__title textbold text-lightest">Is my link permanently available?</p>
+                                    <p class="faq__text smalltext">No, at the momment you can create as many unique links as you want, one for each occasion. You can set an expiration date for each one. However, other configuration options will be added soon, so you can better adapt the functionality to your use cases.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                              <div class="section-definer-blue">
+                            <section class="h-section section-resized">
+                              <div class="row center-xs">
+                                <div class="col-xs-12 ">
+                                  <h3 class="title text-lightest">Ready to start?</h3>
+                                </div>
+                              </div>
+                              <div class="row center-xs">
+                                <div class="col-xs-12">
+                                  <button class="h-button-white smalltext md-trigger" data-modal="modal-signup">Sign Up</button>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                           {% for home in homes%}
+                          {% endfor %}
                     {% endblock %}

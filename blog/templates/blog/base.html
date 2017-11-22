@@ -5,14 +5,41 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
    <body>
+        <div class="nav-big smalltext">
+            <nav class="navbar">
+                <div class="row middle-xs">
+                    <div class="col-xs-2 start-xs col-sm-2 col-lg-2">
+                        <a href="/en-us/" class="row start-xs middle-xs full-height">
+                            <img src="/static/img/logo.jpg" class="logo">
+                        </a>
+                    </div>
+                    <ul class="col-xs-8 end-xs  col-sm-10 col-lg-10">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+                            <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+                        {% else %}
+                            <a href="{% url 'login' %}" clas="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+
+                        <li class="navbar__link"><a class="md-trigger" href="#modal-login" data-modal="modal-login">Login</a></li>
+                        <li class="navbar__link"><a class="md-trigger" href="#modal-signup" data-modal="modal-signup">Sign up</a></li>
+                        <li class="navbar__link"><a href="/en-us/about">About</a></li>
+                        <li class="navbar__link"><a href="/en-us/help">Support</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
         <div class="page-header">
            {% if user.is_authenticated %}
                 <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
                 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-                <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+                <p class="top-menu">Hello  {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
            {% else %}
                 <a href="{% url 'login' %}" clas="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
            {% endif %}
@@ -26,5 +53,156 @@
                 </div>
             </div>
         </div>
+
+                            <div class="md-modal-xs md-effect-1" id="modal-login">
+                                <div class="md-content-xs ">
+                                    <button type="button" class="md-close btn-none"><i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="row-s start-xs">
+                                        <form class="login smalltext text-lightest" id="login-form-js" method="POST" action="/users/login/">
+                                            <div class="col-xs-12">
+                                                <h3 class="title text-lightest">LOGIN</h3>
+                                                <p>If you have not created an account yet, then please
+                                                    <a class=" md-trigger text-blue"    href="#modal-signup" data-modal="modal-signup"><span>sign up</span></a>.
+                                                </p>
+                                                <p class="no-padding">
+                                                </p>
+                                                <div class="login-or">
+                                                    <p class="no-padding smalltext">Login using your email address:</p>
+                                                </div>
+
+                                                <p></p>
+                                                <div class="start-xs text-lightest ">
+                                                    <input type="hidden" name="csrfmiddlewaretoken"  value="Hft0ErgBLxLPCRYs7fCuP8uqJCQRlUv79b1p3dfMquY4QXTuhzujDIYKvrLYK0ot">
+                                                    <div class="input-anim">
+                                                        <span id="login-form-errors-js"></span>
+                                                        <p>
+                                                            <label for="id_login">E-mail:</label> <input type="email" name="login"
+                                                                                                         placeholder=""
+                                                                                                         autofocus="autofocus" required=""
+                                                                                                         id="id_login"
+                                                                                                         class="text padding-modals1">
+                                                        </p>
+                                                        <p>
+                                                            <label for="id_password">Password:</label> <input type="password"
+                                                                                                              name="password" placeholder=""
+                                                                                                              required="" autocomplete="off"
+                                                                                                              id="id_password"
+                                                                                                              class="text padding-modals1">
+                                                        </p>
+                                                    </div>
+                                                    <label class="input-anim" for="id_remember">
+                                                        <p class="no-padding">
+                                                        </p>
+                                                        <div class="flex-in">
+                                                            <label for="id_remember">Remember Me:</label>
+                                                            <input type="checkbox" name="remember" id="id_remember">
+                                                        </div>
+                                                        <p></p>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <button class="primaryAction btn-blue md-trigger" data-modal="modal-login" type="submit">
+                                                    Login
+                                                </button>
+                                            </div>
+                                            <div class="col-xs-12 text-lightest">
+                                                <a class="smalltext secondaryAction u-blockify text-center" href="/users/password/reset/">Forgot
+                                                    Password?</a>
+                                            </div>
+
+                                            <div class="col-xs-12 center-xs middle-xs flex-in full-width mt-small">
+                                                <hr class="full-width">
+                                                <p class="no-padding left-right">OR</p>
+                                                <hr class="full-width">
+                                            </div>
+
+                                        </form>
+                                        <div class="col-xs-12 middle-xs mt-small smalltext">
+                                            <a title="GitHub" class="btn-blue flex-row center-xs middle-xs socialaccount_provider github"
+                                               href="/users/github/login/?process=login">
+                                                <div class="gitpad no-margin middle-xs center-xs center-flex">
+                                                    <i class="fa fa-github fa-lg"></i>
+                                                    <p class="no-padding center-vertical">Sign in with GitHub</p>
+                                                </div>
+                                            </a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+        <div class="md-modal-xs md-effect-1" id="modal-signup">
+            <div class="md-content-xs ">
+                <button type="button" class="md-close btn-none"><i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                </button>
+                <div class="row-s start-xs ">
+                    <form class="signup start-xs smalltext text-lightest" id="signup-form-js" method="post"
+                          action="/users/signup/">
+                        <div class="col-xs-12">
+                            <h3 class="title text-lightest">SIGN UP</h3>
+                            <div class="login-or"><p class="smalltext">Sign up via email address:</p></div>
+                            <input type="hidden" name="csrfmiddlewaretoken"
+                                   value="Hft0ErgBLxLPCRYs7fCuP8uqJCQRlUv79b1p3dfMquY4QXTuhzujDIYKvrLYK0ot">
+                            <div class="start-xs text-lightest">
+                                <div class="input-anim">
+                                    <span id="signup-form-errors-js"></span>
+                                    <p>
+                                        <label for="id_email">E-mail:</label> <input type="email" name="email"
+                                                                                     placeholder="" required=""
+                                                                                     id="id_email"
+                                                                                     class="text padding-modals1">
+                                    </p>
+                                    <p>
+                                        <label for="id_password1">Password:</label>
+                                        <input type="password"  name="password1"  placeholder="" required=""  autocomplete="off"  id="id_password1"  class="text padding-modals1">
+                                    </p>
+                                    <p>
+                                        <label for="id_password2">Password (again):</label>
+                                        <input type="password"  name="password2"  placeholder=""  required=""  autocomplete="off"
+                                                id="id_password2"   class="text padding-modals1">
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12">
+                            <button class="btn-blue mt-small" type="submit">Sign Up</button>
+                        </div>
+                        <div class="col-xs-12 center-xs middle-xs flex-in full-width mt-small">
+                            <hr class="full-width">
+                            <p class="no-padding left-right">OR</p>
+                            <hr class="full-width">
+                        </div>
+                    </form>
+                    <div class="col-xs-12 middle-xs mt-small smalltext">
+
+
+                        <a title="GitHub" class="btn-blue flex-row center-xs middle-xs socialaccount_provider github"
+                           href="/users/github/login/?process=login">
+                            <div class="gitpad no-margin middle-xs center-xs center-flex">
+                                <i class="fa fa-github fa-lg"></i>
+                                <p class="no-padding center-vertical">Sign in with GitHub</p>
+                            </div>
+                        </a>
+
+
+                    </div>
+
+                    <div class="col-xs-12">
+                        <p class="smalltext text-center">Already have an account? Then please <a
+                                class=" md-trigger text-blue" href="#modal-login" data-modal="modal-login">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="md-overlay"></div>
+   <script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
+   <script type="text/javascript" src="{% static 'js/modalEffects.js' %}"></script>
+   <script type="text/javascript" src="{% static 'js/global.js' %}"></script>
     </body>
 </html>

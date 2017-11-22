@@ -1,7 +1,80 @@
+.middle-xs{
+    align-items: center;
+}
+
+
+.row {
+    box-sizing: border-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -.5rem;
+    margin-left: -.5rem;
+}
+
+@media (max-width: 1280px) and (min-width: 750px)
+style.css:6356
+.md-modal-xs {
+    width: 63vw;
+}
+
+@media only screen and (min-width: 48em)
+_flexboxgrid.min.css.scss:1
+.col-sm-10 {
+    -ms-flex-preferred-size: 83.333%;
+    flex-basis: 83.333%;
+    max-width: 83.333%;
+}
+
+.nav-big .navbar {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-bottom: solid 0.5px rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 2px 6px 0px rgba(23, 23, 25, 0.2);
+    padding: 8px 0.9375rem 8px;
+    z-index: 3;
+    font-family: Textfont;
+}
+
+.nav-big .navbar__link {
+    display: inline;
+    padding: 0.3125rem;
+    font-weight: 500;
+}
+
+.end-xs {
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    text-align: end;
+}
+
+.md-modal, .md-modal-xs {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    margin: 0 auto;
+    z-index: 2000;
+    visibility: hidden;
+}
+
+
+/*********************************************************************************************************************/
+
+
+
+
 .page-header {
-    background-color: #ff9400;
+    background-color: #171719;
     margin-top: 0;
-    padding: 20px 20px 20px 40px;
+    padding: 10px 10px 10px 40px;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {

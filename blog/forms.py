@@ -1,5 +1,11 @@
 from django import forms
-from .models import Post, Comment
+from .models import Home, Post, Comment
+
+class HomeForm(forms.ModelForm):
+
+    class Meta:
+        model = Home
+        fields = ('logo','main_banner','sub_banner1','sub_banner2','description',)
 
 class PostForm(forms.ModelForm):
 

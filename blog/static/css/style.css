@@ -10,6 +10,7 @@
 
 /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
 .row {
+  width : 100%;
   box-sizing: border-box;
   display: -ms-flexbox;
   display: flex;
@@ -168,7 +169,7 @@
 .start-xs {
   -ms-flex-pack: start;
   justify-content: flex-start;
-  text-align: start; }
+  text-align: left; }
 
 /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
 .center-xs {
@@ -180,7 +181,7 @@
 .end-xs {
   -ms-flex-pack: end;
   justify-content: flex-end;
-  text-align: end; }
+  text-align: right; }
 
 /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
 .top-xs {
@@ -335,7 +336,7 @@
   .start-sm {
     -ms-flex-pack: start;
     justify-content: flex-start;
-    text-align: start; }
+    text-align: left; }
   /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
   .center-sm {
     -ms-flex-pack: center;
@@ -493,7 +494,7 @@
   .start-md {
     -ms-flex-pack: start;
     justify-content: flex-start;
-    text-align: start; }
+    text-align: left; }
   /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
   .center-md {
     -ms-flex-pack: center;
@@ -651,7 +652,7 @@
   .start-lg {
     -ms-flex-pack: start;
     justify-content: flex-start;
-    text-align: start; }
+    text-align: letf; }
   /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
   .center-lg {
     -ms-flex-pack: center;
@@ -4156,7 +4157,7 @@ ul li {
 @font-face {
   font-family: TextFontMedium;
   src: url("../fonts/Roboto-Medium.ttf");
-  src: url("../fonts/Roboto-Medium.woff2") format("woff2"), url("../fonts/Roboto-Medium.woff") format("woff");
+ src: url("../fonts/Roboto-Medium.woff2") format("woff2"), url("../fonts/Roboto-Medium.woff") format("woff");
   font-weight: regular; }
 
 @font-face {
@@ -4234,7 +4235,7 @@ ul li {
 
 /* line 215, /home/hawkpostuser/postbox/stylesheets/_base.scss */
 .text, body {
-  font-family: TextFont;
+  font-family: inherit;
   color: rgba(235, 235, 235, 0.5); }
   @media (max-width: 569px) {
     /* line 215, /home/hawkpostuser/postbox/stylesheets/_base.scss */
@@ -4292,7 +4293,7 @@ ul li {
 
 /* line 261, /home/hawkpostuser/postbox/stylesheets/_base.scss */
 .textbold {
-  font-family: TextFontBold;
+  font-weight:bold;
   color: rgba(235, 235, 235, 0.5); }
   @media (max-width: 569px) {
     /* line 261, /home/hawkpostuser/postbox/stylesheets/_base.scss */

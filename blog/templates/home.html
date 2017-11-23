@@ -1,5 +1,5 @@
 {% extends 'blog/base.html' %}
-
+{% load staticfiles %}
                     {% block content%}
                               <div class="section-definer-dark">
                             <section class="section-resized">
@@ -23,19 +23,19 @@
                                 <div class="how-container row center-xs full-width">
                                   <div class="col-xs-12 col-sm-4 cont-space">
                                     <div class="center-xs middle-xs">
-                                      <img src="/static/images/icon1.870238ce4f26.svg" class="how-img">
+                                      <img src="{% static 'img/icon1.jpg'%}" class="how-img">
                                     </div>
                                     <p class="smalltext text-darkest">Sign up and register your PGP key.</p>
                                   </div>
                                   <div class="col-xs-12 col-sm-4 cont-space">
                                     <div class="center-xs middle-xs">
-                                      <img src="/static/images/icon2.b69fb85a22b3.svg " class="how-img">
+                                      <img src="{% static 'img/icon2.jpg'%}" class="how-img">
                                     </div>
                                     <p class="smalltext text-darkest">Send your Hawkpost link to the person that wants to share confidential information with you. Wait for the information to be submitted.</p>
                                   </div>
                                   <div class="col-xs-12 col-sm-4 cont-space">
                                     <div class="center-xs middle-xs">
-                                      <img src="/static/images/icon3.63cba086add9.svg" class="how-img">
+                                      <img src="{% static 'img/icon3.jpg'%}" class="how-img">
                                     </div>
                                     <p class="smalltext text-darkest">Our hawk will deliver the message, now encrypted with your PGP key, to your e-mail.</p>
                                   </div>

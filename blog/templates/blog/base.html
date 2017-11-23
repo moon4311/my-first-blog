@@ -1,11 +1,10 @@
 {% load staticfiles %}
 <html>
     <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <title>Django Girls blog</title>
-        <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>-->
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
    <body>
         <div class="nav-big smalltext">
@@ -106,7 +105,7 @@
                                         <div class="col-xs-12 middle-xs mt-small smalltext">
                                             <a title="GitHub" class="btn-blue flex-row center-xs middle-xs socialaccount_provider github"
                                                href="/users/github/login/?process=login">
-                                                <div class="gitpad no-margin middle-xs center-xs center-flex">
+                                                <div class="gitpad no-margin middle-xs center-xs center-flex full-width ">
                                                     <i class="fa fa-github fa-lg"></i>
                                                     <p class="no-padding center-vertical">Sign in with GitHub</p>
                                                 </div>

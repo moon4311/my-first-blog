@@ -10,7 +10,6 @@
 
 /* line 1, /home/hawkpostuser/postbox/stylesheets/vendor/_flexboxgrid.min.css.scss */
 .row {
-  width : 100%;
   box-sizing: border-box;
   display: -ms-flexbox;
   display: flex;
@@ -711,7 +710,7 @@
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
-  text-rendering: auto;
+  font-family : FontAwesome;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 

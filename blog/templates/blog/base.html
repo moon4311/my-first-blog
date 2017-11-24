@@ -1,4 +1,5 @@
 {% load staticfiles %}
+    <!DOCTYPE html>
 <html>
     <head>
         <title>Django Girls blog</title>
@@ -16,11 +17,16 @@
                     </div>
                     <ul class="col-xs-8 end-xs  col-sm-10 col-lg-10">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-                            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-                            <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+<!--                            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>-->
+
+                        <li class="navbar__link"> Hello {{ user.username }}</li>
+                        <li class="navbar__link"><a class="md-trigger" href="{% url 'home' %}" data-modal="modal-login">Home</a></li>
+                        <li class="navbar__link"><a class="md-trigger" href="{% url 'accounts_change'%}" data-modal="modal-login">Settings</a></li>
+                        <li class="navbar__link"><a class="md-trigger" href="{% url 'logout' %}" data-modal="modal-login">Logout</a></li>
                         {% else %}
                         <!-- a href="{% url 'login' %}" clas="top-menu"><span class="glyphicon glyphicon-lock"></span></a -->
+                        <li class="navbar__link"><a class="md-trigger" href="{% url 'home' %}" data-modal="modal-login">Home</a></li>
                         <li class="navbar__link"><a class="md-trigger" href="#modal-login" data-modal="modal-login">Login</a></li>
                         <li class="navbar__link"><a class="md-trigger" href="#modal-signup" data-modal="modal-signup">Sign up</a></li>
                         <li class="navbar__link"><a href="/about">About</a></li>
@@ -85,7 +91,8 @@
                                                 </button>
                                             </div>
                                             <div class="col-xs-12 text-lightest">
-                                                <a class="smalltext secondaryAction u-blockify text-center" href="/users/password/reset/">Forgot
+                                                <!--<a class="smalltext secondaryAction u-blockify text-center" href="/users/password/reset/">Forgot-->
+                                                <a class="smalltext secondaryAction u-blockify text-center" href="{% url 'password_reset' %}">Forgot
                                                     Password?</a>
                                             </div>
 

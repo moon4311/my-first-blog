@@ -4,13 +4,10 @@
 <div class="section-definer-light">
     <section class="section-resized-settings">
         <p class="title center-xs">UPDATE YOUR SETTINGS</p>
-        <ul class="messages messages-elem-js" hidden="True" >
-            <li class="success">{{ success }}   Settings successfully updated</li>
-        </ul>
-        <div class="row center-xs">
-            <div class="center-form">
-                <form id="form" method="post" action="{% url 'accounts_change' %}">
-                    {% csrf_token %}
+            <div class="row center-xs">
+                <div class="center-form">
+                    <!--<form id="form" method="post" action="{% url 'accounts_change' %}">
+                        {% csrf_token %}
                         <div class="input-anim-settings">
                             <div class="row around-xs text-darkest">
                                 <div id="accordion">
@@ -41,7 +38,7 @@
                               <input type="submit" class="btn-blue smalltext" value="Save">
                             </div>
                         </div>
-                    </form>
+                    </form>-->
                 </div>
             </div>
     </section>

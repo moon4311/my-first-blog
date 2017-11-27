@@ -12,7 +12,7 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect, QueryDict
 from .models import Home, Post, Comment
 from .forms import PostForm, CommentForm
-
+from django.utils.translation import ugettext as _
 # Create your views here.
 
 
@@ -50,6 +50,7 @@ def home(request,
     context = {
         'form': form,
         redirect_field_name: redirect_to,
+        'title' : _('Mains'),
         'site': current_site,
         'site_name': current_site.name,
     }

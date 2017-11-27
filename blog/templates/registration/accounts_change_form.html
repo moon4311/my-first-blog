@@ -2,32 +2,46 @@
 
 {% block content %}
 <div class="section-definer-light">
-                            <section class="section-resized-settings">
-                                <p class="title center-xs">UPDATE YOUR SETTINGS</p>
-                                <div class="row center-xs">
-                                    <form id="form" method="post" action="{% url 'accounts_change' %}">
-                                        {% csrf_token %}
-                                        <div class="input-anim-settings">
-                                            <div class="row around-xs text-darkest">
-                                                <div class="accordion">
-                                                <div class="col-xxs-12 col-xs-12 col-md-12 start-xs">
-
-                                                                    <div class="row around-xs text-darkest">
-                                                                        <span id="login-form-errors-js"></span>
-                                                                        <div class="form__block">{{form.old_password.label_tag}} : {{form.old_password}}</div>
-                                                                        <div class="form__block">{{form.new_password1.label_tag}} : {{form.new_password2}}</div>
-                                                                        <div class="form__block">{{form.new_password1.label_tag}} : {{form.new_password2}}</div>
-                                                                        <div class="form__block">{{form.first_name.label_tag}} : {{form.first_name}}</div>
-                                                                        <div class="form__block">{{form.last_name.label_tag}} : {{form.last_name}}</div>
-                                                                        <div class="form__block">{{form.email.label_tag}} : {{form.email}}</div>
-                                                                    </div>
-                                                </div>
-                                                </div>
+    <section class="section-resized-settings">
+        <p class="title center-xs">UPDATE YOUR SETTINGS</p>
+            <div class="row center-xs">
+                <div class="center-form">
+                    <form id="form" method="post" action="{% url 'accounts_change' %}">
+                        {% csrf_token %}
+                        <div class="input-anim-settings">
+                            <div class="row around-xs text-darkest">
+                                <div id="accordion">
+                                    <ul class="no-padding">
+                                        <li class="section active" id="section1">
+                                    <div class="col-xxs-12 col-xs-12 col-md-12 start-xs">
+                                            <span id="login-form-errors-js"></span>
+                                            <div class="form__block">{{form.old_password.label_tag}}
+                                                {{form.old_password}}
                                             </div>
-                                        </div>
-                                    </form>
+                                            <div class="form__block">{{form.new_password1.label_tag}}
+                                                {{form.new_password1}}
+                                            </div>
+                                            <div class="form__block">{{form.new_password2.label_tag}}
+                                                {{form.new_password2}}
+                                            </div>
+                                            <div class="form__block">{{form.last_name.label_tag}} {{form.last_name}}
+                                            </div>
+                                            <div class="form__block">{{form.first_name.label_tag}} {{form.first_name}}
+                                            </div>
+                                            <div class="form__block">{{form.email.label_tag}} {{form.email}}</div>
+                                    </div>
+                                    </li>
+                                        </ul>
                                 </div>
-                            </section>
-                          </div>
+                            </div>
+                            <div class="col-xs-12 form__block">
+                              <input type="submit" class="btn-blue smalltext" value="Save">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </section>
+</div>
 
 {% endblock %}

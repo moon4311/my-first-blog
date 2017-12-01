@@ -25,7 +25,7 @@ def home(request,
          authentication_form=AuthenticationForm,
          extra_context=None, redirect_authenticated_user=False
          ) :
-    homes = Home.objects.filter(published_date__lte=timezone.now(   )).order_by('published_date')
+    homes = Home.objects.order_by("-id").last()
 
     redirect_to = request.POST.get(redirect_field_name, request.GET.get(redirect_field_name, ''))
 

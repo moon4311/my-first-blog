@@ -1,5 +1,9 @@
+
 python 자동화, django 관련 강의
 https://nomade.kr/vod/automation/
+
+**** 마우스 컨트롤 ****
+http://pyautogui.readthedocs.io/en/latest/mouse.html
 
 
 
@@ -13,12 +17,10 @@ https://nomade.kr/vod/automation/
 4. 접근 -> Go
  - b스케일 확률에 따라 비례해서
 
- 
+
 5. 결과 데이터 수집
 
 6. 데이터 반영
-
-
 
 
 

@@ -18,12 +18,20 @@ def read_screen() :
         img_np = np.array(img)
         frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
         #vid.write(img_np)
-        cv2.imshow("frame", frame)
+
+        blur = cv2.GaussianBlur(frame,(1,1),0)
+        canny = cv2.Canny(blur,0,0)   # http://emaru.tistory.com/15
+        # cv2.Canny()
+        # cv2.imshow("frame", frame)  #  1. gray
+        # cv2.imshow("frame", blur)    # 2. 가우시안blur 필터
+        cv2.imshow("frame", canny)    # 3. Canny 필터
+
 
         key = cv2.waitKey(1)
         if key == 27:
             break
-        print(np.array)
+
+
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 

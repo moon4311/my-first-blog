@@ -5,6 +5,9 @@ https://nomade.kr/vod/automation/
 **** 마우스 컨트롤 ****
 http://pyautogui.readthedocs.io/en/latest/mouse.html
 
+openCV
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv
+
 
 
 1. 화면 인식  - 리스트

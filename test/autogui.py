@@ -20,9 +20,21 @@ import pyautogui as gui
 wid = 60
 hei = 450
 # gui.moveTo(wid,hei)
-def getPosition():
+def get_position() :
     position = gui.position()  # 위치 가져오기
-    print(position)
+
+gui.click(200,500)
+print("1 실행 ")
+
+
+def new_click(x,y):
+    print(gui.position())
+
+gui.click = new_click
+
+
+gui.click(500,500)
+
 
 
 # *** 클릭 했을때 포지션 위치 파악해서 데이터 보관 ***

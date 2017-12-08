@@ -8,6 +8,7 @@ http://pyautogui.readthedocs.io/en/latest/mouse.html
 openCV
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv
 https://www.tutorialspoint.com/opencv/opencv_gaussian_blur.htm
+http://opencv-python.readthedocs.io/en/latest/doc/16.imageContourFeature/imageContourFeature.html
 
 
 1. 화면 인식  - 리스트

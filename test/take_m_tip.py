@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 import pyautogui as gui
-from PIL import ImageGrab
+import pytesseract
+from PIL import (Image, ImageGrab)
 from matplotlib import pyplot as plt
 
 
@@ -22,6 +23,7 @@ def read_screen() :
         img_np = cv2.merge([r,g,b])
         img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
         origin = img_np
+
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
         img_np = cv2.Canny(img_np,50,50)                     # 2진화
 
@@ -51,10 +53,11 @@ def read_screen() :
         if (aspect_ratio >= 0.2) and (aspect_ratio <= 1.0) and (rect_area >= 100) and (rect_area <= 700):
             cv2.rectangle(img_np, (x, y), (x + w, y + h), (0, 255, 0), 1)
             box1.append(cv2.boundingRect(cnt))
-            print(box1)
-    # cv2.imshow("frame", img_np)
 
-
+    cv2.imshow("frame", img_np)
+    cv2.imwrite("result.jpg",img_np)
+    result = pytesseract.image_to_string(Image.open("result.jpg"),lang='eng')
+    print(result)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 

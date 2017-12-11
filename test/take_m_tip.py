@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 
 
 # 1. 스크린 인식
-def read_screen() :
+def check_status() :
     # fourcc = cv2.VideoWriter_fourcc('X','V','I','D')
     # vid = cv2.VideoWriter('record1.avi',fourcc, 8,(590,490))  #  아래 x,y, w,h  보고 계산
     box1 = []
@@ -16,19 +16,18 @@ def read_screen() :
     kernel = np.ones((2, 2), np.uint8)
     # 2. 데이터 추출  Labeling >  Contour Tracing > Get Contour Information
     while(True):
-
-        img = ImageGrab.grab(bbox=(30, 150, 600, 350))
+                # img = ImageGrab.grab(bbox=(30, 150, 600, 350))
+        img = ImageGrab.grab(bbox=(100, 150, 220, 200))
         img_np = np.array(img)
         b,g,r = cv2.split(img_np)
         img_np = cv2.merge([r,g,b])
-        img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
         img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
         origin = img_np
 
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
         img_np = cv2.Canny(img_np,50,50)                     # 2진화
-
-        cv2.imshow("frame",img_np)
+        img_np = 255 - img_np
+        # cv2.imshow("frame",img_np)
         # cv2.imwrite("result.jpg", img_np)
 
 
@@ -40,33 +39,138 @@ def read_screen() :
         # blur = cv2.GaussianBlur(frame,(1,1),0)  # http://bskyvision.com/24
         # blia = cv2.bilateralFilter(frame,100,1,1)  # http://bskyvision.com/24
 
-
-
-        cnts,contours,hierarchy = cv2.findContours(img_np, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        img_np = cv2.drawContours(origin, contours, -1, (0, 255, 0), 1)
-
+        cv2.imshow("frame", img_np)
+        cv2.imwrite("result.jpg", img_np)
+        im = Image.open("result.jpg")
+        result = pytesseract.image_to_string(im)
+        result = str(result).replace(" ","")
+        if result.find("Stop")+1 :  # stop 일 때
+            print("Stop : ",result.find("Stop"))
+            read_result()
+        else :
+            print("PLEASE")
+        # cnts,contours,hierarchy = cv2.findContours(img_np, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        # img_np = cv2.drawContours(origin, contours, -1, (0, 255, 0), 1)
         # cv2.imshow("origin",img_np)
+
+
         key = cv2.waitKey(1)
         if key == 27:
             break
 
-    for j in range(len(contours)):
-        cnt = contours[j]
-        area = cv2.contourArea(cnt)
-        x, y, w, h = cv2.boundingRect(cnt)
-        rect_area = w * h  # area size
-        aspect_ratio = float(w) / h  # ratio = width/height
-        if (aspect_ratio >= 0.2) and (aspect_ratio <= 1.0) and (rect_area >= 100) and (rect_area <= 700):
-            cv2.rectangle(img_np, (x, y), (x + w, y + h), (0, 255, 0), 1)
-            box1.append(cv2.boundingRect(cnt))
+    # for j in range(len(contours)):
+    #     cnt = contours[j]
+    #     area = cv2.contourArea(cnt)
+    #     x, y, w, h = cv2.boundingRect(cnt)
+    #     rect_area = w * h  # area size
+    #     aspect_ratio = float(w) / h  # ratio = width/height
+    #     if (aspect_ratio >= 0.2) and (aspect_ratio <= 1.0) and (rect_area >= 100) and (rect_area <= 700):
+    #         cv2.rectangle(img_np, (x, y), (x + w, y + h), (0, 255, 0), 1)
+    #         box1.append(cv2.boundingRect(cnt))
 
     # cv2.imshow("frame", img_np)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    im = Image.open("result.jpg")
-    result = pytesseract.image_to_string(im,lang='eng')
-    print(result)
+    # im = Image.open("result.jpg")
+    # result = pytesseract.image_to_string(im)
+    # print(result)
 
+
+def read_result() :
+    box1 = []
+    img_np = ""
+    kernel = np.ones((2, 2), np.uint8)
+    while(True):
+        img = ImageGrab.grab(bbox=(100, 200, 320, 500))
+        img_np = np.array(img)
+        b,g,r = cv2.split(img_np)
+        img_np = cv2.merge([r,g,b])
+        img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+        # img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+        origin = img_np
+
+        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
+        img_np = cv2.Canny(img_np,50,50)                     # 2진화
+        img_np = 255 - img_np
+        # cv2.imshow("frame",img_np)
+        # cv2.imwrite("result.jpg", img_np)
+
+
+        # img_np = cv2.dilate(img_np,kernel, iterations=1)    # 확장 dilate
+        # img_np = cv2.resize(invert,(1000,400),interpolation=cv2.INTER_CUBIC)  ## 크기 확대
+        # img_np = cv2.pyrDown(img_np)                      # 이미지 가로x1/2 세로x1/2
+        # img_np = 255 - img_np                             # 색반전
+        # img_np = cv2.erode(img_np,kernel, iterations=1) # 4 . 축소 erode
+        # blur = cv2.GaussianBlur(frame,(1,1),0)  # http://bskyvision.com/24
+        # blia = cv2.bilateralFilter(frame,100,1,1)  # http://bskyvision.com/24
+
+        cv2.imshow("frame", img_np)
+        cv2.imwrite("result.jpg", img_np)
+        im = Image.open("result.jpg")
+        result = pytesseract.image_to_string(im)
+        result = str(result).replace(" ","")
+        if result.find("Stop")+1 :  # stop 일 때
+            print("Stop : ",result.find("Stop"))
+        else :
+            print("PLEASE")
+        # cnts,contours,hierarchy = cv2.findContours(img_np, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        # img_np = cv2.drawContours(origin, contours, -1, (0, 255, 0), 1)
+        # cv2.imshow("origin",img_np)
+
+
+        key = cv2.waitKey(1)
+        if key == 27:
+            break
+
+    # for j in range(len(contours)):
+    #     cnt = contours[j]
+    #     area = cv2.contourArea(cnt)
+    #     x, y, w, h = cv2.boundingRect(cnt)
+    #     rect_area = w * h  # area size
+    #     aspect_ratio = float(w) / h  # ratio = width/height
+    #     if (aspect_ratio >= 0.2) and (aspect_ratio <= 1.0) and (rect_area >= 100) and (rect_area <= 700):
+    #         cv2.rectangle(img_np, (x, y), (x + w, y + h), (0, 255, 0), 1)
+    #         box1.append(cv2.boundingRect(cnt))
+
+    # cv2.imshow("frame", img_np)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    # im = Image.open("result.jpg")
+    # result = pytesseract.image_to_string(im)
+    # print(result)
+
+
+def test():
+
+    result = "please"
+    while result.find("please")==0 :
+        result = image_read(120, 150, 200, 170)
+        print(result)
+        if result.find("Stop")+1 :   # status Stop
+            print("result_check")
+
+
+
+def image_read(cv2, x1,y1,x2,y2) :
+    img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+    img_np = np.array(img)
+    b,g,r = cv2.split(img_np)
+    img_np = cv2.merge([r,g,b])
+    img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+
+    img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
+    img_np = cv2.Canny(img_np,50,50)                     # 2진화
+    img_np = 255 - img_np
+    cv2.imshow("frame", img_np)
+    cv2.imwrite("result.jpg", img_np)
+
+    result = pytesseract.image_to_string(Image.open("result.jpg"))
+    result = str(result).replace(" ","")
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+    return result
+        # if(result.find())
+    # return result
 
 
 def find_circles(img,cimg):
@@ -87,5 +191,6 @@ def find_circles(img,cimg):
         cv2.circle(cimg, (i[0], i[1]), 2, (0, 0, 255), 3)
     cv2.imshow('img', cimg)
 
-read_screen()
+# check_status()
 
+test()

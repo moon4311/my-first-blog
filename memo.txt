@@ -11,6 +11,13 @@ https://www.tutorialspoint.com/opencv/opencv_gaussian_blur.htm
 http://opencv-python.readthedocs.io/en/latest/doc/16.imageContourFeature/imageContourFeature.html
 
 
+
+pytesseract.py 22 line
+http://javamin.tistory.com/47
+tesseract_cmd = 'D://program/Tesseract-OCR/tesseract'
+경로 변경
+
+
 1. 화면 인식  - 리스트
 
 2. 분석

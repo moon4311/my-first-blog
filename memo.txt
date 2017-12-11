@@ -1,4 +1,4 @@
-
+﻿
 python 자동화, django 관련 강의
 https://nomade.kr/vod/automation/
 
@@ -16,6 +16,9 @@ pytesseract.py 22 line
 http://javamin.tistory.com/47
 tesseract_cmd = 'D://program/Tesseract-OCR/tesseract'
 경로 변경
+
+
+kor.traindata ->  C:\program\Tesseract-OCR\tessdata
 
 
 1. 화면 인식  - 리스트

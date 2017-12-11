@@ -22,10 +22,14 @@ def read_screen() :
         b,g,r = cv2.split(img_np)
         img_np = cv2.merge([r,g,b])
         img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+        img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
         origin = img_np
 
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
         img_np = cv2.Canny(img_np,50,50)                     # 2진화
+
+        cv2.imshow("frame",img_np)
+        # cv2.imwrite("result.jpg", img_np)
 
 
         # img_np = cv2.dilate(img_np,kernel, iterations=1)    # 확장 dilate
@@ -36,10 +40,12 @@ def read_screen() :
         # blur = cv2.GaussianBlur(frame,(1,1),0)  # http://bskyvision.com/24
         # blia = cv2.bilateralFilter(frame,100,1,1)  # http://bskyvision.com/24
 
+
+
         cnts,contours,hierarchy = cv2.findContours(img_np, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         img_np = cv2.drawContours(origin, contours, -1, (0, 255, 0), 1)
 
-        cv2.imshow("origin",img_np)
+        # cv2.imshow("origin",img_np)
         key = cv2.waitKey(1)
         if key == 27:
             break
@@ -54,12 +60,12 @@ def read_screen() :
             cv2.rectangle(img_np, (x, y), (x + w, y + h), (0, 255, 0), 1)
             box1.append(cv2.boundingRect(cnt))
 
-    cv2.imshow("frame", img_np)
-    cv2.imwrite("result.jpg",img_np)
-    result = pytesseract.image_to_string(Image.open("result.jpg"),lang='eng')
-    print(result)
+    # cv2.imshow("frame", img_np)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    im = Image.open("result.jpg")
+    result = pytesseract.image_to_string(im,lang='eng')
+    print(result)
 
 
 

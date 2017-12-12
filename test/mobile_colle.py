@@ -7,46 +7,91 @@ from matplotlib import pyplot as plt
 
 
 def image_read(img_file,x1,y1,x2,y2,lang="eng+kor") :
-
     # 1.전처리 - 화면 크기 선택
-    img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
-    img_np = np.array(img)
-    # 2.전처리 - 원본 색깔로 변경
-    b,g,r = cv2.split(img_np)
-    img_np = cv2.merge([r,g,b])
-    # 3.전처리 - 크기 2배로 조정
-    img_np = cv2.pyrUp(img_np)
-    img_np = 255 - img_np
-    # 4.전처리 - 선명하게
-    kernel = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
-    img_np = cv2.filter2D(img_np, -1, kernel)
+    result = ""
+    while result.find("완료") != 0:
+        img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+        img_np = np.array(img)
+        # 2.전처리 - 원본 색깔로 변경
+        b,g,r = cv2.split(img_np)
+        img_np = cv2.merge([r,g,b])
+        # 3.전처리 - 크기 2배로 조정
+        # img_np = cv2.pyrUp(img_np)
+        img_np = 255 - img_np
+        # 4.전처리 - 선명하게
+        kernel = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
+        img_np = cv2.filter2D(img_np, -1, kernel)
+        cv2.imshow("test",img_np)
+        cv2.imwrite(img_file, img_np)
 
-    # 5. Gray 화 >  2진화
-    img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
-    # img_np = cv2.Canny(img_np,200,200)                     # 2진화
+        # 5. Gray 화 >  2진화
+        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
+        img_np = cv2.Canny(img_np,200,200)                     # 2진화
 
-    cv2.imwrite(img_file, img_np)
-    result = pytesseract.image_to_string(Image.open(img_file),lang)
-    cv2.waitKey(3)  # 3초마다 확인
+        result = pytesseract.image_to_string(Image.open(img_file),lang)
+        print("result : ",result)
+        key = cv2.waitKey(1)
+        if key == 27:
+            break
+    cv2.waitKey(0)  # 3초마다 확인
     cv2.destroyAllWindows()
-    return result
     # if(result.find())
-    # return result
+    return result
 
 
 # 1. 스크린 인식
 
 #  Finish!  1
 def check_status():
-    result = "Please"
-    while result.find("Stop") != 0 :
-        result = image_read("status.jpg",120, 150, 200, 170)
-        if result.find("Stop")+1 :   # status Stop
-            print("read_result Start")
-            get_result()
+    result = ""
+    while result.find("완료") < 0:
+        img = ImageGrab.grab(bbox=(130, 380, 470, 420))
+        img_np = np.array(img)
+        b, g, r = cv2.split(img_np)
+        img_np = cv2.merge([r, g, b])
+        img_np = 255 - img_np
+
+        cv2.imwrite("status.jpg", img_np)
+        result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
+        result = result.replace(" ","")
+        key = cv2.waitKey(1)
+        if key == 27 :
+            break
+
+    cv2.destroyAllWindows()
+    get_result()
 
 def get_result():
-    result= image_read("7.jpg",60,300,650,400) # PDF TEST
+    result = ""
+    while result.find("완료") < 0:
+        # img = ImageGrab.grab(bbox=(140, 570, 620, 610))
+        # img = ImageGrab.grab(bbox=(140, 350, 620, 400))
+        img = ImageGrab.grab(bbox=(142, 350, 180, 398))
+        # img = ImageGrab.grab(bbox=(80, 100, 720, 710))
+        img_np = np.array(img)
+        b, g, r = cv2.split(img_np)
+        img_np = cv2.merge([r, g, b])
+        img_np = 255 - img_np
+        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
+        kernel = np.ones((1, 1), np.uint8)
+        img_np = cv2.dilate(img_np, kernel, iterations=1)  # 4 . 축소 erode
+        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+        img_np = cv2.filter2D(img_np, -1, kernel)
+        cv2.imshow("result",img_np)
+        cv2.imwrite("test.jpg", img_np)
+        # img_np = cv2.pyrDown(img_np)                      # 이미지 가로x1/2 세로x1/2
+        img_np = cv2.Canny(img_np,1000,1000)                     # 2진화
+
+
+        result = pytesseract.image_to_string(Image.open("test.jpg"))
+        # result = result.replace(" ", "")
+        print("result : ", result)
+        key = cv2.waitKey(10)
+        if key == 27 :
+            break
+    cv2.destroyAllWindows()
+
+    # result= image_read("7.jpg",60,300,650,400) # PDF TEST
     # result= image_read("7.jpg",720,620,810,750,lang="kor") # 내부 결과
     list = result.split(" ")
     print(len(list))
@@ -66,7 +111,6 @@ def temp22222() :
         b,g,r = cv2.split(img_np)
         img_np = cv2.merge([r,g,b])
         img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
-        # img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
         origin = img_np
 
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화

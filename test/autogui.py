@@ -23,17 +23,23 @@ hei = 450
 def get_position() :
     position = gui.position()  # 위치 가져오기
 
-gui.click(200,500)
+# gui.click(200,500)
 print("1 실행 ")
 
 
-def new_click(x,y):
-    print(gui.position())
+# def new_click(x,y):
+#     print(gui.position())
 
-gui.click = new_click
+# gui.click = new_click
 
+sw = 1
+while(True) :
+    x,y = gui.position()
+    print(x,y)
+    gui.moveTo(x-sw,y)
+    if x == 100 : sw = -1
+    if x == 500 : sw = 1
 
-gui.click(500,500)
 
 
 

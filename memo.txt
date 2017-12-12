@@ -25,6 +25,11 @@ kor.traindata ->  C:\program\Tesseract-OCR\tessdata
 
 2. 분석
 
+    http://mind3002.blogspot.kr/2016/01/cc-opencv-license-plates-recognition.html
+
+    take_m_tio  -> 빅데이터 구축용
+
+
 3. 조건 부합 체크
  - 특정 패턴이 일정확률 이상일 경우
 

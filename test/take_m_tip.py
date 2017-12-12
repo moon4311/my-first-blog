@@ -6,50 +6,57 @@ from PIL import (Image, ImageGrab)
 from matplotlib import pyplot as plt
 
 
+def image_read(img_file,x1,y1,x2,y2,lang="eng+kor") :
 
-def image_read(img_file,x1,y1,x2,y2,lang="eng") :
-    kernel = np.ones((1, 1), np.uint8)
+    # 1.전처리 - 화면 크기 선택
     img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
     img_np = np.array(img)
+    # 2.전처리 - 원본 색깔로 변경
     b,g,r = cv2.split(img_np)
-    img_np = cv2.merge([255-r,g-g+100,255-b])
-    # img_np = cv2.dilate(img_np,kernel, iterations=1)    # 확장 dilate
-    img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
-    # img_np = cv2.erode(img_np,kernel, iterations=1)    # 확장 dilate
+    img_np = cv2.merge([r,g,b])
+    # 3.전처리 - 크기 2배로 조정
+    img_np = cv2.pyrUp(img_np)
+    img_np = 255 - img_np
+    # 4.전처리 - 선명하게
+    kernel = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
+    img_np = cv2.filter2D(img_np, -1, kernel)
+
+    # 5. Gray 화 >  2진화
     img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
-    img_np = img_np -1
-    # img_np = cv2.erode(img_np,kernel, iterations=1)    # 확장 dilate
-    cv2.imshow("frame", img_np)
+    # img_np = cv2.Canny(img_np,200,200)                     # 2진화
+
     cv2.imwrite(img_file, img_np)
-    img_np = cv2.Canny(img_np,100,100)                     # 2진화
-    # img_np = 255-img_np
-
-
     result = pytesseract.image_to_string(Image.open(img_file),lang)
-    result = str(result).replace(" ","")
-    cv2.waitKey(0)  # 3초마다 확인
+    cv2.waitKey(3)  # 3초마다 확인
     cv2.destroyAllWindows()
     return result
-        # if(result.find())
+    # if(result.find())
     # return result
 
 
 # 1. 스크린 인식
 
+#  Finish!  1
 def check_status():
     result = "Please"
     while result.find("Stop") != 0 :
-        result = image_read("result.jpg",120, 150, 200, 170)
+        result = image_read("status.jpg",120, 150, 200, 170)
         if result.find("Stop")+1 :   # status Stop
             print("read_result Start")
-            read_result()
+            get_result()
+
+def get_result():
+    result= image_read("result.jpg",60,300,650,400) # PDF TEST
+    # result= image_read("result.jpg",720,620,810,750,lang="kor") # 내부 결과
+    list = result.split(" ")
+    print(len(list))
+    print(result)
+    # 1 숫자기준    2 패턴기준    # 최근 x개의 패턴
+    # set   회차2     R   exOdd   Odd    exEven  Even   Tie          
+    # 00001  1~      O|E    0~    0~       0~     0~    0~
 
 
-def test():
-   result= image_read("test.jpg",720,620,810,750,lang="kor") # 내부 결과
-   print(result)
-
-def read_result() :
+def temp22222() :
     box1 = []
     img_np = ""
     kernel = np.ones((2, 2), np.uint8)
@@ -135,4 +142,4 @@ def find_circles(img,cimg):
 
 # check_status()
 
-test()
+get_result()

@@ -1,4 +1,8 @@
 ﻿
+DB
+ DB.Browser.for.SQLite-3.10.1-win64.exe
+
+
 python 자동화, django 관련 강의
 https://nomade.kr/vod/automation/
 

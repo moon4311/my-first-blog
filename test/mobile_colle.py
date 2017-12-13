@@ -187,3 +187,9 @@ def find_circles(img,cimg):
 # check_status()
 
 get_result()
+
+table = "result"
+insert_data = {"g_id":"g_id","sequence":1,"result":"O","ex_o":0,"ex_e":0,"o":1,"e":0,"t":0,"img":"img"}
+insert_result(table,insert_data)
+row = select_all(table, insert_data)
+print("end ROW : ", row)

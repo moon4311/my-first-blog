@@ -53,7 +53,7 @@ if __name__ == '__main__':
         train, train_labels = loadTrainData(FNAME)
 
         saveNpz = False
-        for fname in glob.glob('images/num*.jpg'):
+        for fname in glob.glob('images/*.jpg'):
             test = resize20(fname)
             result = checkDigit(test, train, train_labels)
 

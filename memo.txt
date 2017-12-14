@@ -1,6 +1,8 @@
 ﻿
 DB
- DB.Browser.for.SQLite-3.10.1-win64.exe
+설치파일 : DB.Browser.for.SQLite-3.10.1-win64.exe
+가이드 : http://www.w3big.com/ko/sqlite/sqlite-constraints.html
+
 
 
 python 자동화, django 관련 강의

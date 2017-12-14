@@ -40,7 +40,10 @@ def checkDigit(test, train, train_labels):
     knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
 
     ret, result, neighbours, dist = knn.findNearest(test, k=5)
-
+    print("ret : ", ret)
+    print("result : ", result)
+    print("neighbours : ", neighbours)
+    print("dist : ", dist)
     return result
 
 if __name__ == '__main__':
@@ -50,10 +53,11 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'train':
         machineLearning()
     elif sys.argv[1] == 'test':
+
         train, train_labels = loadTrainData(FNAME)
 
         saveNpz = False
-        for fname in glob.glob('images/*.jpg'):
+        for fname in glob.glob('images/*_result.jpg'):
             test = resize20(fname)
             result = checkDigit(test, train, train_labels)
 

@@ -1,18 +1,11 @@
 import numpy as np
 import cv2
-import db_connector
 import pytesseract
 from PIL import (Image, ImageGrab)
-import pyautogui as gui
 from matplotlib import pyplot as plt
 
 
-
-######   KNNN 으로 숫자 학습 했으니   KNN import  해서  숫자 판독 하면 된다.!!
-
-
-
-def image_read(img_file,x1,y1,x2,y2,lang="eng+kor") :
+def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):
     # 1.전처리 - 화면 크기 선택
     result = ""
     while result.find("완료") != 0:
@@ -45,66 +38,67 @@ def image_read(img_file,x1,y1,x2,y2,lang="eng+kor") :
     return result
 
 
-# 1. 스크린 인식
-
-#  Finish!  1
-def check_status():
+def check_status():    # Finish! 1
+    """ STEP 1  상태 종료 확인 """
     result = ""
     while result.find("완료") < 0:
         img = ImageGrab.grab(bbox=(130, 380, 470, 420))
         img_np = np.array(img)
         b, g, r = cv2.split(img_np)
-        img_np = cv2.merge([r, g, b])
-        img_np = 255 - img_np
-
-        cv2.imwrite("status.jpg", img_np)
+        img_np = 255 - cv2.merge([r, g, b])
+        cv2.imshow("Fr", img_np)
+        # cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
         result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
-        result = result.replace(" ","")
-        key = cv2.waitKey(1)
-        if key == 27 :
+        result = result.replace(" ", "")
+        print("mobile_collect > check_status :", result)
+        key = cv2.waitKey(0)
+        if key == 27:
             break
-
     cv2.destroyAllWindows()
-    get_result()
+    return result
 
-def get_result():
-    result = ""
-    while result.find("완료") < 0:
-        # img = ImageGrab.grab(bbox=(140, 570, 620, 610))
-        # img = ImageGrab.grab(bbox=(140, 350, 620, 400))
-        img = ImageGrab.grab(bbox=(142, 350, 180, 398))
-        # img = ImageGrab.grab(bbox=(80, 100, 720, 710))
+# check_status()
+
+def save_number(xywh, filename):    # Finish! 2
+    """ STEP 2  숫자 이미지 저장 """
+    for idx in range(2):
+        img = ImageGrab.grab(bbox=xywh[idx])
         img_np = np.array(img)
         b, g, r = cv2.split(img_np)
-        img_np = cv2.merge([r, g, b])
-        img_np = 255 - img_np
-        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
-        kernel = np.ones((1, 1), np.uint8)
-        img_np = cv2.dilate(img_np, kernel, iterations=1)  # 4 . 축소 erode
-        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-        img_np = cv2.filter2D(img_np, -1, kernel)
-        cv2.imshow("result",img_np)
-        cv2.imwrite("test.jpg", img_np)
-        # img_np = cv2.pyrDown(img_np)                      # 이미지 가로x1/2 세로x1/2
-        img_np = cv2.Canny(img_np,1000,1000)                     # 2진화
+        img_np = 255 - cv2.merge([r, g, b])
+        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # 제거해도 숫자인식 문제없는지 확인
+        kernel = np.ones((1, 1), np.uint8)                  # 제거해도 숫자인식 문제없는지 확인
+        img_np = cv2.dilate(img_np, kernel, iterations=1)  # 4 . 축소 erode   # 제거해도 숫자인식 문제없는지 확인
+        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])    # 제거해도 숫자인식 문제없는지 확인
+        img_np = cv2.filter2D(img_np, -1, kernel)           # 제거해도 숫자인식 문제없는지 확인
+        # cv2.imshow("result",img_np)       ## 숫자 이미지 확인용 ! 테스트용
 
-
-        result = pytesseract.image_to_string(Image.open("test.jpg"))
-        # result = result.replace(" ", "")
-        print("result : ", result)
-        key = cv2.waitKey(10)
-        if key == 27 :
-            break
+        cv2.imwrite(filename[idx], img_np)     ## 이미지 저장용 ! 삭제 하면 안됨
     cv2.destroyAllWindows()
 
-    # result= image_read("7.jpg",60,300,650,400) # PDF TEST
-    # result= image_read("7.jpg",720,620,810,750,lang="kor") # 내부 결과
-    list = result.split(" ")
-    print(len(list))
-    print(result)
-    # 1 숫자기준    2 패턴기준    # 최근 x개의 패턴
-    # set   회차2     R   exOdd   Odd    exEven  Even   Tie          
-    # 00001  1~      O|E    0~    0~       0~     0~    0~
+
+def read_number(path):
+    """ STEP 3  숫자 이미지 판독 """
+    arr = []
+
+    with np.load('digits.npz') as data:
+        train = data['train']
+        train_labels = data['train_labels']
+
+    for fn in path :
+        img = cv2.imread(fn)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        grayResize = cv2.resize(gray, (20, 20))
+
+        ret, thresh = cv2.threshold(grayResize, 125, 255, cv2.THRESH_BINARY_INV)
+        test = thresh.reshape(-1, 400).astype(np.float32)
+
+        knn = cv2.ml.KNearest_create()
+        knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
+        ret, result, neighbours, dist = knn.findNearest(test, k=5)
+        arr.append(int(ret))
+
+    return arr
 
 
 def temp22222() :
@@ -116,41 +110,16 @@ def temp22222() :
         img_np = np.array(img)
         b,g,r = cv2.split(img_np)
         img_np = cv2.merge([r,g,b])
-        img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
-        origin = img_np
-
+        # img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+        # img_np = cv2.pyrDown(img_np)                      # 이미지 가로x1/2 세로x1/2
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
         img_np = cv2.Canny(img_np,50,50)                     # 2진화
-        img_np = 255 - img_np
-        # cv2.imshow("frame",img_np)
-        # cv2.imwrite("7.jpg", img_np)
-
-
         # img_np = cv2.dilate(img_np,kernel, iterations=1)    # 확장 dilate
-        # img_np = cv2.resize(invert,(1000,400),interpolation=cv2.INTER_CUBIC)  ## 크기 확대
-        # img_np = cv2.pyrDown(img_np)                      # 이미지 가로x1/2 세로x1/2
-        # img_np = 255 - img_np                             # 색반전
         # img_np = cv2.erode(img_np,kernel, iterations=1) # 4 . 축소 erode
+        # img_np = cv2.resize(invert,(1000,400),interpolation=cv2.INTER_CUBIC)  ## 크기 확대
+        # img_np = 255 - img_np                             # 색반전
         # blur = cv2.GaussianBlur(frame,(1,1),0)  # http://bskyvision.com/24
         # blia = cv2.bilateralFilter(frame,100,1,1)  # http://bskyvision.com/24
-
-        cv2.imshow("frame", img_np)
-        cv2.imwrite("7.jpg", img_np)
-        im = Image.open("7.jpg")
-        result = pytesseract.image_to_string(im)
-        result = str(result).replace(" ","")
-        if result.find("Stop")+1 :  # stop 일 때
-            print("Stop : ",result.find("Stop"))
-        else :
-            print("PLEASE")
-        # cnts,contours,hierarchy = cv2.findContours(img_np, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        # img_np = cv2.drawContours(origin, contours, -1, (0, 255, 0), 1)
-        # cv2.imshow("origin",img_np)
-
-
-        key = cv2.waitKey(1)
-        if key == 27:
-            break
 
     # for j in range(len(contours)):
     #     cnt = contours[j]
@@ -168,8 +137,6 @@ def temp22222() :
     # im = Image.open("7.jpg")
     # result = pytesseract.image_to_string(im)
     # print(result)
-
-
 
 
 def find_circles(img,cimg):
@@ -191,14 +158,8 @@ def find_circles(img,cimg):
     cv2.imshow('img', cimg)
 
 # check_status()
-
-get_result()
-
-
-
-
-table = "result"
-insert_data = {"g_id":"g_id","sequence":1,"result":"O","ex_o":0,"ex_e":0,"o":1,"e":0,"t":0,"img":"img"}
-insert_result(table,insert_data)
-row = select_all(table, insert_data)
-print("end ROW : ", row)
+# table = "result"
+# insert_data = {"g_id":"g_id","sequence":1,"result":"O","ex_o":0,"ex_e":0,"o":1,"e":0,"t":0,"img":"img"}
+# insert_result(table,insert_data)
+# row = select_all(table, insert_data)
+# print("end ROW : ", row)

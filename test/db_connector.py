@@ -65,6 +65,7 @@ class Connector:
         conn = self.connect()
         sql = "SELECT" + self.set_query_column(column) + " FROM " + table
         sql = self.set_query_param(sql, param.copy())
+        print("select_all : ", sql)
         cur = conn.cursor()
         cur.execute(sql, param)
         rows = cur.fetchall()
@@ -81,7 +82,7 @@ class Connector:
         keys = str(tuple(insert_data.keys()))
         values = str(tuple(insert_data.values()))
         sql = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
-        print("sql : ", sql)
+        print("insert : ", sql)
         try:
             cur = conn.cursor()
             cur.execute(sql)

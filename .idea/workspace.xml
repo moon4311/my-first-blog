@@ -2,22 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d3d967-665d-42f4-a18c-582a9c08dfc2" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/test/connector.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/memo.txt" afterPath="$PROJECT_DIR$/memo.txt" />
-      <change beforePath="$PROJECT_DIR$/omessigray.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/opencv_screenshot.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/opencv_screenshot2.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/test/0.jpg" afterPath="$PROJECT_DIR$/test/images/0.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/1.jpg" afterPath="$PROJECT_DIR$/test/images/1.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/2.jpg" afterPath="$PROJECT_DIR$/test/images/2.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/3.jpg" afterPath="$PROJECT_DIR$/test/images/3.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/4.jpg" afterPath="$PROJECT_DIR$/test/images/4.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/5.jpg" afterPath="$PROJECT_DIR$/test/images/5.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/6.jpg" afterPath="$PROJECT_DIR$/test/images/6.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/7.jpg" afterPath="$PROJECT_DIR$/test/images/7.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/8.jpg" afterPath="$PROJECT_DIR$/test/images/8.jpg" />
-      <change beforePath="$PROJECT_DIR$/test/9.jpg" afterPath="$PROJECT_DIR$/test/images/9.jpg" />
+      <change beforePath="$PROJECT_DIR$/myvenv/Lib/site-packages/PIL/Image.py" afterPath="$PROJECT_DIR$/myvenv/Lib/site-packages/PIL/Image.py" />
+      <change beforePath="$PROJECT_DIR$/test/connector.py" afterPath="$PROJECT_DIR$/test/connector.py" />
+      <change beforePath="$PROJECT_DIR$/test/mobile_colle.py" afterPath="$PROJECT_DIR$/test/mobile_colle.py" />
+      <change beforePath="$PROJECT_DIR$/test/test.jpg" afterPath="$PROJECT_DIR$/test/test.jpg" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,13 +42,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connector.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="connector.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/connector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
-              <caret line="58" column="4" lean-forward="true" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
+            <state relative-caret-position="893">
+              <caret line="50" column="35" lean-forward="true" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
               <folding>
                 <element signature="e#1#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Image.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/PIL/Image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="100" column="11" lean-forward="false" selection-start-line="100" selection-start-column="11" selection-end-line="100" selection-end-column="11" />
+              <folding>
+                <element signature="e#722#769#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,12 +127,13 @@
         <option value="$PROJECT_DIR$/memo.txt" />
         <option value="$PROJECT_DIR$/test/db_connect.py" />
         <option value="$PROJECT_DIR$/test/connector.py" />
+        <option value="$PROJECT_DIR$/myvenv/Lib/site-packages/PIL/Image.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="827" />
-    <option name="y" value="68" />
+    <option name="x" value="632" />
+    <option name="y" value="59" />
     <option name="width" value="1125" />
     <option name="height" value="962" />
   </component>
@@ -181,6 +183,41 @@
             <path>
               <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
               <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+              <item name="Lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+              <item name="Lib" type="462c0819:PsiDirectoryNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+              <item name="Lib" type="462c0819:PsiDirectoryNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="PIL" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+              <item name="Lib" type="462c0819:PsiDirectoryNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="PIL" type="462c0819:PsiDirectoryNode" />
+              <item name="Image.py" type="8704e2dd:PyFileNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -218,6 +255,12 @@
               <item name="-664661401" type="70582d5e:PySkeletonsNode" />
               <item name="_sqlite3.py" type="8704e2dd:PyFileNode" />
               <item name="Cursor" type="dd8bbb05:PyElementNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 3.6 (djangogirls) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -383,7 +426,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="827" y="68" width="1125" height="962" extended-state="0" />
+    <frame x="632" y="59" width="1125" height="962" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2971481" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -674,14 +717,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/PIL/Image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="2497" column="0" lean-forward="true" selection-start-line="2497" selection-start-column="0" selection-end-line="2497" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/temp.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -778,10 +813,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/connector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="58" column="4" lean-forward="true" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
+        <state relative-caret-position="893">
+          <caret line="50" column="35" lean-forward="true" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
           <folding>
             <element signature="e#1#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/PIL/Image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="100" column="11" lean-forward="false" selection-start-line="100" selection-start-column="11" selection-end-line="100" selection-end-column="11" />
+          <folding>
+            <element signature="e#722#769#0" expanded="true" />
           </folding>
         </state>
       </provider>

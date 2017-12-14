@@ -42,19 +42,21 @@ def check_status():    # Finish! 1
     """ STEP 1  상태 종료 확인 """
     result = ""
     while result.find("완료") < 0:
-        img = ImageGrab.grab(bbox=(130, 380, 470, 420))
+        img = ImageGrab.grab(bbox=(130, 380, 460, 420))
         img_np = np.array(img)
         b, g, r = cv2.split(img_np)
         img_np = 255 - cv2.merge([r, g, b])
-        cv2.imshow("Fr", img_np)
-        # cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
+        # cv2.imshow("Fr", img_np)
+        cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
         result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
         result = result.replace(" ", "")
-        print("mobile_collect > check_status :", result)
-        key = cv2.waitKey(0)
+        key = cv2.waitKey(4)
         if key == 27:
             break
+        if result.find("기") > 0:
+            break
     cv2.destroyAllWindows()
+    print("mobile_collect > check_status :", result)
     return result
 
 # check_status()
@@ -62,20 +64,23 @@ def check_status():    # Finish! 1
 def save_number(xywh, filename):    # Finish! 2
     """ STEP 2  숫자 이미지 저장 """
     for idx in range(2):
+    # idx=1
+    # while True:
         img = ImageGrab.grab(bbox=xywh[idx])
         img_np = np.array(img)
         b, g, r = cv2.split(img_np)
         img_np = 255 - cv2.merge([r, g, b])
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # 제거해도 숫자인식 문제없는지 확인
-        kernel = np.ones((1, 1), np.uint8)                  # 제거해도 숫자인식 문제없는지 확인
-        img_np = cv2.dilate(img_np, kernel, iterations=1)  # 4 . 축소 erode   # 제거해도 숫자인식 문제없는지 확인
-        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])    # 제거해도 숫자인식 문제없는지 확인
-        img_np = cv2.filter2D(img_np, -1, kernel)           # 제거해도 숫자인식 문제없는지 확인
         # cv2.imshow("result",img_np)       ## 숫자 이미지 확인용 ! 테스트용
-
         cv2.imwrite(filename[idx], img_np)     ## 이미지 저장용 ! 삭제 하면 안됨
+        # a = cv2.waitKey(1)
+        # if a==27:
+        #     break
     cv2.destroyAllWindows()
 
+# xywh = ((147, 550, 182, 598), (567, 550, 602, 598))
+# filename = ("images/p_result.jpg", "images/b_result.jpg")
+# save_number(xywh,filename)
 
 def read_number(path):
     """ STEP 3  숫자 이미지 판독 """
@@ -97,7 +102,7 @@ def read_number(path):
         knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
         ret, result, neighbours, dist = knn.findNearest(test, k=5)
         arr.append(int(ret))
-
+    print("result : [P,B] = ", arr[0], ", ", arr[1])
     return arr
 
 
@@ -158,19 +163,8 @@ def find_circles(img,cimg):
     cv2.imshow('img', cimg)
 
 # check_status()
-<<<<<<< HEAD:test/mobile_colle.py
-
-get_result()
-
-table = "result"
-insert_data = {"g_id":"g_id","sequence":1,"result":"O","ex_o":0,"ex_e":0,"o":1,"e":0,"t":0,"img":"img"}
-insert_result(table,insert_data)
-row = select_all(table, insert_data)
-print("end ROW : ", row)
-=======
 # table = "result"
 # insert_data = {"g_id":"g_id","sequence":1,"result":"O","ex_o":0,"ex_e":0,"o":1,"e":0,"t":0,"img":"img"}
 # insert_result(table,insert_data)
 # row = select_all(table, insert_data)
 # print("end ROW : ", row)
->>>>>>> d4c0323adf754230378e0d7913650ef1d0a26fe0:test/mobile_collect.py

@@ -4,7 +4,7 @@ import numpy as np
 import glob
 import sys
 
-FNAME = 'digits.npz'
+FNAME = 'number.npz'
 
 def machineLearning():
     img = cv2.imread('images/digits.png')
@@ -22,11 +22,11 @@ def machineLearning():
 def resize20(pimg):
     img = cv2.imread(pimg)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    grayResize = cv2.resize(gray,(20,20))
-    ret, thresh = cv2.threshold(grayResize, 125, 255,cv2.THRESH_BINARY_INV)
+    grayResize = 255 - cv2.resize(gray, (20, 20))
+    # ret, thresh = cv2.threshold(grayResize, 125, 255,cv2.THRESH_BINARY_INV)
+    cv2.imshow('num', grayResize)
 
-    cv2.imshow('num',thresh)
-    return thresh.reshape(-1,400).astype(np.float32)
+    return grayResize.reshape(-1,400).astype(np.float32)
 
 def loadTrainData(fname):
     with np.load(fname) as data:
@@ -40,8 +40,7 @@ def checkDigit(test, train, train_labels):
     knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
 
     ret, result, neighbours, dist = knn.findNearest(test, k=5)
-    print("ret : ", ret)
-    print("result : ", result)
+    print("ret : ", ret, " result : ", result)
     print("neighbours : ", neighbours)
     print("dist : ", dist)
     return result
@@ -57,11 +56,11 @@ if __name__ == '__main__':
         train, train_labels = loadTrainData(FNAME)
 
         saveNpz = False
-        for fname in glob.glob('images/*_result.jpg'):
+        for fname in glob.glob('train/*.jpg'):
             test = resize20(fname)
             result = checkDigit(test, train, train_labels)
 
-            print(result)
+            print(fname, " : ", result)
 
             k = cv2.waitKey(0)
 

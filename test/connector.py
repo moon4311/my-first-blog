@@ -72,18 +72,19 @@ class Connector:
         conn.close()
         return rows
 
-    def select_limit(self, table, param, column="*", orderBy="rowId desc", cnt=1):
+    def select_limit(self, table, param, column="*", order_by ="rowId desc", cnt=1):
         """
         :param table: Table Name
         :param param: Parameter  ex) {"id":"1", "title":"Test"}
-        :param orderBy: column name "id"
         :param column: ("id","name","data" ...)
+        :param order_by: column name "id"
+        :param cnt: limit count
         :return:
         """
         conn = self.connect()
         sql = "SELECT" + self.set_query_column(column) + " FROM " + table
         sql = self.set_query_param(sql, param.copy())
-        sql = sql + " ORDER BY " + orderBy
+        sql = sql + " ORDER BY " + order_by
         sql = sql + " LIMIT " + str(cnt)
         print("select_limit > ", sql)
         cur = conn.cursor()

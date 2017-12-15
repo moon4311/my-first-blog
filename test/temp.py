@@ -7,11 +7,11 @@ while(True):
     # img2=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img2 = ImageGrab.grab(bbox=(492, 620, 512, 640))
     img2 = np.array(img2)
-    cv2.imshow("frame",img2)
+    cv2.i86mshow("frame", img2)
 
     key = cv2.waitKey(1)
     if key == 27:
         break
     elif key != 27 :
-        cv2.imwrite('images/num_6.jpg',img2)
+        cv2.imwrite('images/num_6.jpg', img2)
 

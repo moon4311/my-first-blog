@@ -23,12 +23,15 @@ data = {"g_id": "TEST",
 # conn.insert("result",data)
 g_id = conn.select_limit("result", {}, column=["g_id"])[0][0]
 
-while True:
+# while True:
 # while False:
+
+
+while True :
         Id = check_status()
         if Id.find("기") > 0:
                 g_id = int(g_id) + 1
-                time.sleep(20)
+                time.sleep(10)
                 continue
 
         if Id.find("완료") > 0:
@@ -43,10 +46,10 @@ while True:
                 data.__setitem__("sequence", ll[1] + 1)
                 data.__setitem__("ex_p",ll[5])
                 data.__setitem__("ex_b",ll[6])
-                time.sleep(3)
 
                 # xywh = ((142, 350, 180, 398), (580, 350, 620, 398))
-                xywh = ((150, 560, 180, 595), (570, 560, 600, 595))
+                # xywh = ((150, 560, 180, 595), (570, 560, 600, 595))  # 30 x 40
+                xywh = ((150, 555, 190, 600), (570, 555, 610, 600))   # 40 x 40
                 filename = ("images/p_result.jpg", "images/b_result.jpg")
                 save_number(xywh, filename)
                 arr = read_number(filename)
@@ -61,7 +64,7 @@ while True:
                         data.__setitem__("t",ll[7] + 1)
                 print("data : ", data)
                 conn.insert("result",data)
-                time.sleep(5)
+                time.sleep(15)
 
 # ex_data = conn.select_all("result", {"RowId": "max(RowId"})
 # print(ex_data)  GC00517C140FU

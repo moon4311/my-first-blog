@@ -4,7 +4,9 @@ import numpy as np
 import glob
 import sys
 
-FNAME = 'number.npz'
+# FNAME = 'number.npz'
+FNAME = 'digits.npz'
+FNAMET = 'digitsT.npz'
 
 def machineLearning():
     img = cv2.imread('images/digits.png')
@@ -13,11 +15,33 @@ def machineLearning():
     cells = [np.hsplit(row,100) for row in np.vsplit(gray,50)]
     x = np.array(cells)
     train = x[:,:].reshape(-1,400).astype(np.float32)
-
+    cv2.imshow("train : ", train)
+    cv2.waitKey(0)
     k = np.arange(10)
+    print("np.newaxis : ", np.newaxis)
     train_labels = np.repeat(k,500)[:,np.newaxis]
+    print(train_labels)
+    # np.savez(FNAME,train=train,train_labels = train_labels)
 
-    np.savez(FNAME,train=train,train_labels = train_labels)
+
+def machineLearning2():
+    # img = cv2.imread('images/digits.png')
+    # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # cells = [np.hsplit(row,100) for row in np.vsplit(gray,50)]
+    # x = np.array(cells)
+    # train = x[:,:].reshape(-1,400).astype(np.float32)
+    # k = np.arange(10)
+    # train_labels = np.repeat(k,500)[:,np.newaxis]
+    # np.savez(FNAME,train=train,train_labels = train_labels)
+    train = []
+    train_labels = []
+    for fname in glob.glob('images/*.jpg'):
+        cell = resize20(fname)
+        train.append(cell)
+        label = fname.split("\\")[1][0]
+        train_labels.append(label)
+    np.savez(FNAMET, train=train, train_labels=train_labels)
+
 
 def resize20(pimg):
     img = cv2.imread(pimg)
@@ -32,7 +56,8 @@ def loadTrainData(fname):
     with np.load(fname) as data:
         train = data['train']
         train_labels = data['train_labels']
-
+    # cv2.imshow("frame", train[0])
+    # cv2.waitKey(0)
     return train, train_labels
 
 def checkDigit(test, train, train_labels):
@@ -40,9 +65,9 @@ def checkDigit(test, train, train_labels):
     knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
 
     ret, result, neighbours, dist = knn.findNearest(test, k=5)
-    print("ret : ", ret, " result : ", result)
-    print("neighbours : ", neighbours)
-    print("dist : ", dist)
+    # print("ret : ", ret, " result : ", result)
+    # print("neighbours : ", neighbours)
+    # print("dist : ", dist)
     return result
 
 if __name__ == '__main__':
@@ -50,13 +75,14 @@ if __name__ == '__main__':
         print('option : train or test')
         exit(1)
     elif sys.argv[1] == 'train':
-        machineLearning()
+        # machineLearning()
+        machineLearning2()
     elif sys.argv[1] == 'test':
 
         train, train_labels = loadTrainData(FNAME)
 
         saveNpz = False
-        for fname in glob.glob('train/*.jpg'):
+        for fname in glob.glob('images/*.jpg'):
             test = resize20(fname)
             result = checkDigit(test, train, train_labels)
 
@@ -73,6 +99,6 @@ if __name__ == '__main__':
 
         cv2.destroyAllWindows()
         if saveNpz:
-            np.savez(FNAME,train=train, train_labels=train_labels)
+            np.savez(FNAMET,train=train, train_labels=train_labels)
     else:
         print('unknow option')

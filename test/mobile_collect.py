@@ -50,7 +50,7 @@ def check_status():    # Finish! 1
         cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
         result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
         result = result.replace(" ", "")
-        key = cv2.waitKey(4)
+        key = cv2.waitKey(1)
         if key == 27:
             break
         if result.find("기") > 0:
@@ -86,7 +86,7 @@ def read_number(path):
     """ STEP 3  숫자 이미지 판독 """
     arr = []
 
-    with np.load('digits.npz') as data:
+    with np.load('digitsT.npz') as data:
         train = data['train']
         train_labels = data['train_labels']
 

@@ -67,6 +67,7 @@ def check_status():    # Finish! 1
 
 def save_number(xywh, filename):    # Finish! 2
     """ STEP 2  숫자 이미지 저장 """
+    result=[]
     for idx in range(2):
         img_np = 255 - set_image(xywh[idx])
         # img_np = np.array(img)
@@ -76,9 +77,12 @@ def save_number(xywh, filename):    # Finish! 2
         img_np = cv2.resize(img_np, (20, 20))   # resize
         # cv2.imshow("result",img_np)       ## 숫자 이미지 확인용 ! 테스트용
         cv2.imwrite(filename[idx], img_np)     ## 이미지 저장용 ! 삭제 하면 안됨
+        im = Image.open(filename[idx])
+        result.append(pytesseract.image_to_string(im, config='--psm 7'))
     cv2.destroyAllWindows()
-    pb = read_number(filename)
-    return pb
+    # pb = read_number(filename)
+    print("save_number : ", result)
+    return result
 
 
 def read_number(path):
@@ -103,17 +107,23 @@ def read_number(path):
 def read_result(xywh, fname):
     # fname = "images/result.jpg"
     result = []
-    for idx in range(2):
+    kernel2 = np.ones((0, 0), np.uint8)
+    for idx in range(3):
         img_np = set_image(xywh[idx])
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)  # 제거해도 숫자인식 문제없는지 확인
-        img_np = cv2.resize(img_np, (20, 20))  # resize
-        cv2.imshow("result",img_np)       ## 숫자 이미지 확인용 ! 테스트용
-        cv2.imwrite(fname, img_np)  ## 이미지 저장용 ! 삭제 하면 안됨
-        im = Image.open(fname)
-        result.append(pytesseract.image_to_string(im))
+        img_np = cv2.GaussianBlur(img_np,(3,3),0)  # http://bskyvision.com/24
+        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+        img_np = cv2.filter2D(img_np, -1, kernel)
+        cv2.imwrite(fname[idx], img_np)  ## 이미지 저장용 ! 삭제 하면 안됨
+        im = Image.open(fname[idx])
+        result.append(pytesseract.image_to_string(im, config='--psm 7'))
 
-    print("result : ", result)
+    print("read_result : ", result)
     return result
+
+# xywh2 = ((154, 655, 174, 680), (203, 655, 223, 680))   # result Int
+# filename2 = ("images/p_cnt.jpg", "images/b_cnt.jpg")
+# read_result(xywh2, filename2)
 
 
 def temp22222() :

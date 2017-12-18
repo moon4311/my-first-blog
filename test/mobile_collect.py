@@ -38,14 +38,19 @@ def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):
     return result
 
 
+
+def set_image(bbox):
+    img = ImageGrab.grab(bbox=bbox)
+    img_np = np.array(img)
+    b,g,r = cv2.split(img_np)
+    return cv2.merge([r, g, b])
+
+
 def check_status():    # Finish! 1
     """ STEP 1  상태 종료 확인 """
     result = ""
     while result.find("완료") < 0:
-        img = ImageGrab.grab(bbox=(130, 380, 460, 420))
-        img_np = np.array(img)
-        b, g, r = cv2.split(img_np)
-        img_np = 255 - cv2.merge([r, g, b])
+        img_np = 255 - set_image((130, 380, 460, 420))
         # cv2.imshow("Fr", img_np)
         cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
         result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
@@ -59,28 +64,22 @@ def check_status():    # Finish! 1
     print("mobile_collect > check_status :", result)
     return result
 
-# check_status()
 
 def save_number(xywh, filename):    # Finish! 2
     """ STEP 2  숫자 이미지 저장 """
     for idx in range(2):
-    # idx=1
-    # while True:
-        img = ImageGrab.grab(bbox=xywh[idx])
-        img_np = np.array(img)
-        b, g, r = cv2.split(img_np)
-        img_np = 255 - cv2.merge([r, g, b])
+        img_np = 255 - set_image(xywh[idx])
+        # img_np = np.array(img)
+        # b, g, r = cv2.split(img_np)
+        # img_np = 255 - cv2.merge([r, g, b])
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # 제거해도 숫자인식 문제없는지 확인
+        img_np = cv2.resize(img_np, (20, 20))   # resize
         # cv2.imshow("result",img_np)       ## 숫자 이미지 확인용 ! 테스트용
         cv2.imwrite(filename[idx], img_np)     ## 이미지 저장용 ! 삭제 하면 안됨
-        # a = cv2.waitKey(1)
-        # if a==27:
-        #     break
     cv2.destroyAllWindows()
+    pb = read_number(filename)
+    return pb
 
-# xywh = ((147, 550, 182, 598), (567, 550, 602, 598))
-# filename = ("images/p_result.jpg", "images/b_result.jpg")
-# save_number(xywh,filename)
 
 def read_number(path):
     """ STEP 3  숫자 이미지 판독 """
@@ -92,18 +91,29 @@ def read_number(path):
 
     for fn in path :
         img = cv2.imread(fn)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        grayResize = cv2.resize(gray, (20, 20))
-
-        ret, thresh = cv2.threshold(grayResize, 125, 255, cv2.THRESH_BINARY_INV)
+        ret, thresh = cv2.threshold(img, 125, 255, cv2.THRESH_BINARY_INV)
         test = thresh.reshape(-1, 400).astype(np.float32)
-
         knn = cv2.ml.KNearest_create()
         knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
         ret, result, neighbours, dist = knn.findNearest(test, k=5)
         arr.append(int(ret))
-    print("result : [P,B] = ", arr[0], ", ", arr[1])
     return arr
+
+
+def read_result(xywh, fname):
+    # fname = "images/result.jpg"
+    result = []
+    for idx in range(2):
+        img_np = set_image(xywh[idx])
+        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)  # 제거해도 숫자인식 문제없는지 확인
+        img_np = cv2.resize(img_np, (20, 20))  # resize
+        cv2.imshow("result",img_np)       ## 숫자 이미지 확인용 ! 테스트용
+        cv2.imwrite(fname, img_np)  ## 이미지 저장용 ! 삭제 하면 안됨
+        im = Image.open(fname)
+        result.append(pytesseract.image_to_string(im))
+
+    print("result : ", result)
+    return result
 
 
 def temp22222() :

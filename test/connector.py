@@ -38,6 +38,22 @@ class Connector:
                     param_str = param_str + ","
         return param_str
 
+    def set_select_column(self, param):
+        """
+        :param sql:  select , insert into , update
+        :param param: ("id","name","date" ... )
+        :return: query
+        """
+        param_str = ""
+        if type(param) == "str":
+            param_str = "*"
+        else:
+            for column in param:
+                param_str = param_str + " " + column
+                if column != param[len(param)-1]:
+                    param_str = param_str + ","
+        return "SELECT" + param_str + " FROM "
+
     def set_query_param(self, sql, param):
         """
         :param sql:  select ~ from  
@@ -62,17 +78,11 @@ class Connector:
         :param column: ("id","name","data" ...)
         :return:
         """
-        conn = self.connect()
-        sql = "SELECT" + self.set_query_column(column) + " FROM " + table
-        sql = self.set_query_param(sql, param.copy())
-        print("select_all : ", sql)
-        cur = conn.cursor()
-        cur.execute(sql, param)
-        rows = cur.fetchall()
-        conn.close()
-        return rows
+        query = self.set_select_column(column) + table
+        query = self.set_query_param(query, param.copy())
+        return self.select(query, param)
 
-    def select_limit(self, table, param, column="*", order_by ="rowId desc", cnt=1):
+    def select_limit(self, table, param, column="*", order_by="rowId desc", cnt=1):
         """
         :param table: Table Name
         :param param: Parameter  ex) {"id":"1", "title":"Test"}
@@ -81,14 +91,16 @@ class Connector:
         :param cnt: limit count
         :return:
         """
+        query = self.set_select_column(column) + table
+        query = self.set_query_param(query, param.copy())
+        query = query + " ORDER BY " + order_by + " LIMIT " + str(cnt)
+        return self.select(query, param)
+
+    def select(self, query, param):
+        # print("select > ", query)
         conn = self.connect()
-        sql = "SELECT" + self.set_query_column(column) + " FROM " + table
-        sql = self.set_query_param(sql, param.copy())
-        sql = sql + " ORDER BY " + order_by
-        sql = sql + " LIMIT " + str(cnt)
-        print("select_limit > ", sql)
         cur = conn.cursor()
-        cur.execute(sql, param)
+        cur.execute(query, param)
         rows = cur.fetchall()
         conn.close()
         return rows

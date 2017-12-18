@@ -1,8 +1,9 @@
-import connector
 import time
 import cv2
 import datetime
+import connector
 from mobile_collect import *
+from analysis import *
 from PIL import (Image, ImageGrab)
 import pyautogui as gui
 from matplotlib import pyplot as plt
@@ -12,22 +13,21 @@ conn = connector.Connector()
 
 # print(check_status())
 
-data = {"g_id": "TEST",
-        "sequence":	2,
-        "result": "T",
-        "ex_p": 0,
-        "ex_b": 0,
-        "p": 1,
-        "b": 0,
-        "t": 1}
+data = {"g_id": "TEST", "sequence":	1,    "result": "T",
+        "ex_p": 0,    "ex_b": 0,
+        "p": 1,       "b": 0,
+        "t": 1, "latest": ""}
 # conn.insert("result",data)
 g_id = conn.select_limit("result", {}, column=["g_id"])[0][0]
+# g_id = 10
 
-# while True:
-# while False:
+xywh = ((150, 555, 190, 600), (570, 555, 610, 600))   # 40 x 40  STR
+filename = ("images/p_result.jpg", "images/b_result.jpg")
+xywh2 = ((150, 605, 170, 620), (170, 605, 190, 620))   # result Int
+filename2 = ("images/p_cnt.jpg", "images/b_cnt.jpg")
 
-
-while True :
+# while True :
+while False :
         Id = check_status()
         if Id.find("기") > 0:
                 g_id = int(g_id) + 1
@@ -35,35 +35,44 @@ while True :
                 continue
 
         if Id.find("완료") > 0:
-                # if False :
+                time.sleep(3)
+                # 조회
+                pb = save_number(xywh, filename)
+                rst_str = "P" if (pb[0] > pb[1]) else "B" if (pb[0] < pb[1]) else "T"
+                rst_int = read_result(xywh2, filename2)
                 last = conn.select_limit("result", {"g_id": g_id})
-                if len(last) == 0:      # 시작일 경우 데이터가 조회가 안된다
-                        ll = [g_id, 0, 0, 0, 0, 0, 0]
-                else:
-                        ll = list(last[0])
-                print("last : ", last)
-                data.__setitem__("g_id", g_id)
-                data.__setitem__("sequence", ll[1] + 1)
-                data.__setitem__("ex_p",ll[5])
-                data.__setitem__("ex_b",ll[6])
 
-                # xywh = ((142, 350, 180, 398), (580, 350, 620, 398))
-                # xywh = ((150, 560, 180, 595), (570, 560, 600, 595))  # 30 x 40
-                xywh = ((150, 555, 190, 600), (570, 555, 610, 600))   # 40 x 40
-                filename = ("images/p_result.jpg", "images/b_result.jpg")
-                save_number(xywh, filename)
-                arr = read_number(filename)
-                if arr[0] > arr[1]:  # P
-                        data.__setitem__("result", "P")
+                # 가공
+                if last:
+                        ll = list(last[0])
+                else:   # 시작일 경우 데이터가 조회가 안된다
+                        ll = [g_id, 0, 0, 0, 0, 0, 0, 0, ""]
+
+                # 대입
+                data.__setitem__("g_id", g_id)
+                data.__setitem__("sequence", ll[1] + 1)  ## 원 개수 파악해서 넣는 방향으로
+                data.__setitem__("result", rst_str)
+                data.__setitem__("ex_p", ll[5])
+                data.__setitem__("ex_b", ll[6])
+                data.__setitem__("p", rst_int[0])
+                data.__setitem__("b", rst_int[1])
+                data.__setitem__("latest", ll[8]+rst_str)
+                if rst_str == "P":
                         data.__setitem__("p", ll[5] + 1)
-                elif arr[0] < arr[1]: # B
-                        data.__setitem__("result", "B")
+                elif rst_str == "B":
                         data.__setitem__("b", ll[6] + 1)
-                else:
-                        data.__setitem__("result", "T")
-                        data.__setitem__("t",ll[7] + 1)
+                if rst_str == "T":
+                        data.__setitem__("t", ll[7] + 1)
+
+                # if pb[0] > pb[1]:  # P
+                #         data.__setitem__("result", "P")
+                # elif pb[0] < pb[1]:  # B
+                #         data.__setitem__("result", "B")
+                # else:
+                #         data.__setitem__("result", "T")
+
                 print("data : ", data)
-                conn.insert("result",data)
+                conn.insert("result", data)
                 time.sleep(15)
 
 # ex_data = conn.select_all("result", {"RowId": "max(RowId"})

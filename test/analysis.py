@@ -50,6 +50,27 @@ def result_by_latest(latest):
     return result_rate(conn.select(query, {}))
 
 
+def result_by_latest2(latest):
+    """
+
+    :param latest:
+    :return:
+    """
+    conn = connector.Connector()
+    length = latest.__len__()
+    query = "SELECT length(latest) as len, sequence," \
+        + " length(latest) - length(replace(latest, 'P', '')) as p," \
+        + " length(latest) - length(replace(latest, 'B', '')) as B," \
+        + " length(latest) - length(replace(latest, 'T', '')) as T," \
+        + "latest, substr(latest, INSTR(latest, \""+latest+"\"), "+str(length)+")" \
+        + "FROM result WHERE latest like \"%"+latest+"%\" " \
+        + " GROUP BY g_id "
+    rows = conn.select(query, {})
+    print(rows)
+
+
+result_by_latest2("PPP")
+
 def search_Frequency():
     """
     가장 자주 나오는 패턴 검색

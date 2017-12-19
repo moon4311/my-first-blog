@@ -6,14 +6,6 @@ DB
 
 
 
-C001 PBBPPP PBPPTP BBTTPP PBBPTB BPPPPT PPBBPB BBTBPP BTBPPB BTBBBB PPBBPP BTBBBB P
-C002 PPPPBT PBPPBP BBPTPB BBTBBP BBPBBP BPBBPP BPBPTP BBBBBB PBPPPB PPTPBB BTPBBP BBPB
-C003 PTPBBB PBBPBP TBPTTB PBBPBB PBPPPB PBBPPP BPBBBP PTTBBB PBPBBP BPPPBT PPPBBP PBPB
-C005 BBBPPB BBBTBT BPBBPP PBTTBB BPTBPB BBPBBB PTBPPB TPBPBB PBBPPB PPPPBB PPTBBP B
-C006 PBBPPT PBBPPT BBPBBB BBBBBB BPBTBP TPPPPB PPTTPB BBPBPP PBTBBB PPBPPB PBBBBP PPPTBP
-
-B002 TBPBPP BPPPBB PBPBPP BBBPBP PBPPTP PPPPPP BPPTBP PPPPBP TPTBPP BBBBBB PTP
-
 
 
 
@@ -62,3 +54,17 @@ kor.traindata ->  C:\program\Tesseract-OCR\tessdata
 
 
 
+
+
+
+
+select g_id,length(latest) as len,
+sequence,
+length(latest) - length(replace(latest,'P','')) as p,
+length(latest) - length(replace(latest,'B','')) as B,
+length(latest) - length(replace(latest,'T','')) as T,
+latest,
+substr(latest,INSTR(latest,"PPPP"),5)
+from result
+where latest like "%PPPP%"
+group by g_id

@@ -2,24 +2,26 @@ import numpy as np
 import connector
 
 
-def result_rate(rows):
-    cnt_total = 0
+conn = connector.Connector()
+
+
+############## UTIL ##############
+
+
+def result_rate(dic):
     result = {"P": 0, "B": 0, "T": 0}
-    result2 = result.copy()
-    if rows:
-        # 개수 파악
-        for row in rows:
-            result.__setitem__(row[0], row[1])
-            cnt_total = cnt_total + row[1]
-        # percent 추가
-        result2 = result.copy()
-        for key in result:
-            result2[key+"rate"] = round(result.get(key) / cnt_total * 100)
-    # return result
-    return result2
+    if dic:
+        cnt_total = sum(dic.values())
+        for char in dic:
+            result.__setitem__(char, dic.get(char))
+            result[char+"rate"] = round(dic.get(char) / cnt_total * 100)
+    return result
 
 
-def result_by_number(p_val, b_val):
+############## UTIL ##############
+
+
+def result_by_number(p_cnt, b_cnt):
     """
     :param : result Table 의 ex 값과 현재 p,b 값
     :return: {'P': 0, 'B': 100, 'T': 0}
@@ -27,49 +29,80 @@ def result_by_number(p_val, b_val):
     ver_2  : 확률 및 답
     """
     # rows = conn.select_all("result", {"ex_p": p_val, "ex_b": b_val})
-    conn = connector.Connector()
     query = "SELECT result, count(*) FROM result " \
-            + " WHERE ex_p = '" + str(p_val) + "' " \
-            + " AND ex_b = '" + str(b_val) + "' " \
+            + " WHERE ex_p = '" + str(p_cnt) + "' " \
+            + " AND ex_b = '" + str(b_cnt) + "' " \
             + " group by result "
     return result_rate(conn.select(query, {}))
 
 
-def result_by_latest(latest):
+def result_by_number_v2(p_cnt, b_cnt):
+    result = {"P": 0, "B": 0, "T": 0}
+    rows = conn.select_latest()
+    for row in rows:
+        for a in range(p_cnt+b_cnt, len(row[0])):
+            st = row[0][:a]
+            if st.count("P") > p_cnt | st.count("B") > b_cnt:
+                break
+            elif (st.count("P") == p_cnt) & (st.count("B") == b_cnt):
+                d = row[0][a:a + 1]
+                result.__setitem__(d, result.get(d)+1)
+                break
+    return result_rate(result)
+
+
+def result_by_sequence(seq): # 해당 sequence 에서 뭐가 나오는지
+    result = {"P": 0, "B": 0, "T": 0}
+    rows = conn.select_latest()
+    for row in rows:
+        char = row[0][seq]
+        result.__setitem__(char, result.get(char)+1)
+    return result_rate(result)
+
+
+def result_by_pattern(pattern):
     """
     사용법 :   result_by_latest("BPBP") 이후 나올 확률 반환
-    :param latest:   대문자 원하는 수량 만큼
+    :param pattern:   대문자 원하는 수량 만큼
     :return:
     """
-    conn = connector.Connector()
-    length = latest.__len__()
-    query = "SELECT result, count(*) FROM result "\
+    length = pattern.__len__()
+    query = "SELECT result, count(*) FROM result " \
             + " WHERE substr(latest,length(latest)-" + str(length) \
-            + ", " + str(length) + ") = '" + latest + "' " \
+            + ", " + str(length) + ") = '" + pattern + "' " \
             + " group by result "
-    return result_rate(conn.select(query, {}))
+    result = {"P": 0, "B": 0, "T": 0}
+    rows = conn.select(query, {})
+    for row in rows:
+        result.__setitem__(row[0], row[1])
+    return result_rate(result)
 
 
-def result_by_latest2(latest):
+def result_by_pattern_v2(pattern):
     """
-
-    :param latest:
+    :param pattern:
     :return:
     """
-    conn = connector.Connector()
-    length = latest.__len__()
-    query = "SELECT length(latest) as len, sequence," \
-        + " length(latest) - length(replace(latest, 'P', '')) as p," \
-        + " length(latest) - length(replace(latest, 'B', '')) as B," \
-        + " length(latest) - length(replace(latest, 'T', '')) as T," \
-        + "latest, substr(latest, INSTR(latest, \""+latest+"\"), "+str(length)+")" \
-        + "FROM result WHERE latest like \"%"+latest+"%\" " \
-        + " GROUP BY g_id "
-    rows = conn.select(query, {})
-    print(rows)
+    result = {"P": 0, "B": 0, "T": 0}
+    rows = conn.select_latest()
+    for char in result:
+        for row in rows:
+            st = row[0]
+            result.__setitem__(char, result.get(char) + st.count(pattern + char))
+    return result_rate(result)
 
 
-result_by_latest2("PPP")
+ro = result_by_number(0, 1)
+print("num : ", ro)
+ro = result_by_number_v2(0, 1)
+print("num : ", ro)
+ro = result_by_pattern("BPBPB")
+print("v1 : ", ro)
+ro = result_by_pattern_v2("BPBPB")
+print("v2 : ", ro)
+ro = result_by_sequence(18)
+print("seq : ", ro)
+
 
 def search_Frequency():
     """

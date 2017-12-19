@@ -96,6 +96,10 @@ class Connector:
         query = query + " ORDER BY " + order_by + " LIMIT " + str(cnt)
         return self.select(query, param)
 
+    def select_latest(self):
+        query = "SELECT latest FROM result GROUP BY g_id"
+        return self.select(query, {})
+
     def select(self, query, param):
         # print("select > ", query)
         conn = self.connect()

@@ -14,7 +14,10 @@ def result_rate(dic):
         cnt_total = sum(dic.values())
         for char in dic:
             result.__setitem__(char, dic.get(char))
-            result[char+"rate"] = round(dic.get(char) / cnt_total * 100)
+            if dic.get(char) > 0:
+                result[char+"rate"] = round(dic.get(char) / cnt_total * 100)
+            else:
+                result[char+"rate"] = 0
     return result
 
 
@@ -33,7 +36,11 @@ def result_by_number(p_cnt, b_cnt):
             + " WHERE ex_p = '" + str(p_cnt) + "' " \
             + " AND ex_b = '" + str(b_cnt) + "' " \
             + " group by result "
-    return result_rate(conn.select(query, {}))
+    result = {"P": 0, "B": 0, "T": 0}
+    rows = conn.select(query, {})
+    for row in rows:
+        result.__setitem__(row[0], row[1])
+    return result_rate(result)
 
 
 def result_by_number_v2(p_cnt, b_cnt):
@@ -51,7 +58,22 @@ def result_by_number_v2(p_cnt, b_cnt):
     return result_rate(result)
 
 
-def result_by_sequence(seq): # 해당 sequence 에서 뭐가 나오는지
+def result_by_number_v3(p_cnt, b_cnt, last):
+    result = {"P": 0, "B": 0, "T": 0}
+    rows = conn.select_latest()
+    for row in rows:
+        for a in range(p_cnt+b_cnt, len(row[0])):
+            st = row[0][:a]
+            if st.count("P") > p_cnt | st.count("B") > b_cnt:
+                break
+            elif (st.count("P") == p_cnt) & (st.count("B") == b_cnt) & (st[-1] == last):
+                d = row[0][a:a + 1]
+                result.__setitem__(d, result.get(d)+1)
+                break
+    return result_rate(result)
+
+
+def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
     result = {"P": 0, "B": 0, "T": 0}
     rows = conn.select_latest()
     for row in rows:
@@ -92,17 +114,25 @@ def result_by_pattern_v2(pattern):
     return result_rate(result)
 
 
-ro = result_by_number(0, 1)
+b_val, p_val = 31,29
+patt = "BBBPPB"
+ro = result_by_number(p_val, b_val)
 print("num : ", ro)
-ro = result_by_number_v2(0, 1)
-print("num : ", ro)
-ro = result_by_pattern("BPBPB")
+ro = result_by_number_v2(p_val, b_val)
+print("num2 : ", ro)
+ro = result_by_number_v3(p_val, b_val, patt[-1])
+print("num3 : ", ro)
+ro = result_by_pattern(patt)
 print("v1 : ", ro)
-ro = result_by_pattern_v2("BPBPB")
+ro = result_by_pattern_v2(patt)
 print("v2 : ", ro)
-ro = result_by_sequence(18)
-print("seq : ", ro)
+# ro = result_by_sequence(28+27+2)
+# print("seq : ", ro)
 
+
+def cut_6pattern():
+    pass
+    # 6개씩 쪼개서 numpy array에 넣고 빈도수 체크
 
 def search_Frequency():
     """

@@ -8,7 +8,6 @@ class Connector:
     def __init__(self):
         self.db = "test.sqlite3"
         # db = "D://djangogirls/test.sqlite3"
-        # db = "../db.sqlite3"
 
     def show(self):
         print("db : ", self.db)

@@ -1,11 +1,8 @@
 import numpy as np
 import connector
-
+from itertools import combinations
 
 conn = connector.Connector()
-
-
-############## UTIL ##############
 
 
 def result_rate(dic):
@@ -15,21 +12,16 @@ def result_rate(dic):
         for char in dic:
             result.__setitem__(char, dic.get(char))
             if dic.get(char) > 0:
-                result[char+"rate"] = round(dic.get(char) / cnt_total * 100)
+                result[char+"%"] = round(dic.get(char) / cnt_total * 100)
             else:
-                result[char+"rate"] = 0
+                result[char+"%"] = 0
     return result
-
-
-############## UTIL ##############
 
 
 def result_by_number(p_cnt, b_cnt):
     """
     :param : result Table 의 ex 값과 현재 p,b 값
     :return: {'P': 0, 'B': 100, 'T': 0}
-    ver_1  : 확률 리턴
-    ver_2  : 확률 및 답
     """
     # rows = conn.select_all("result", {"ex_p": p_val, "ex_b": b_val})
     query = "SELECT result, count(*) FROM result " \
@@ -114,34 +106,61 @@ def result_by_pattern_v2(pattern):
     return result_rate(result)
 
 
-b_val, p_val = 31,29
-patt = "BBBPPB"
-ro = result_by_number(p_val, b_val)
-print("num : ", ro)
-ro = result_by_number_v2(p_val, b_val)
-print("num2 : ", ro)
-ro = result_by_number_v3(p_val, b_val, patt[-1])
-print("num3 : ", ro)
-ro = result_by_pattern(patt)
-print("v1 : ", ro)
-ro = result_by_pattern_v2(patt)
-print("v2 : ", ro)
+def cut_pattern(cnt):
+    rows = conn.select_latest()
+    arr = []
+    tu = {}
+    for row in rows:
+        # arr2 = []
+        length = len(row[0])
+        latest = str(row[0])
+        for s in range(0, length, cnt):
+            pattern = latest[s: s + cnt]
+            if len(pattern) == cnt:
+                # arr2.append(pattern)
+                arr.append(pattern)
+    for ar in arr:
+        if tu.__contains__(ar):     tu.__setitem__(ar, tu.get(ar)+1)
+        else:        tu[ar] = 1
+    return tu
+
+
+def find_pattern():
+    rows = conn.select_latest()
+    dic, result = {}, {}
+    for row in combinations(rows, 2):
+        t1, t2 = row[0][0], row[1][0]
+        for a in range(6, 7):  # 글자수
+            for b in range(len(t1) - a):  # A의 위치
+                str_a = t1[b:a + b]
+                for c in range(len(t2) - a):  # B의 위치
+                    str_b = t2[c:a + c]
+                    if str_a == str_b:
+                        if dic.__contains__(str_a):
+                            dic.__setitem__(str_a, dic.get(str_a) + 1)
+                        else:
+                            dic[str_a] = 1
+
+    for a in dic: #일정 개수 이상인 경우 선별
+        if dic.get(a) > 100:
+            result[a] = dic.get(a)
+
+    print(result)
+
+
+b_val, p_val = 2, 1
+patt = "BPBPB"
+ro = 0
+# ro = result_by_number(p_val, b_val)
+# print("num : ", ro)
+# ro = result_by_number_v2(p_val, b_val)
+# print("num2 : ", ro)
+# ro = result_by_number_v3(p_val, b_val, patt[-1])
+# print("num3 : ", ro)
+# ro = result_by_pattern(patt)
+# print("pat1 : ", ro)
+# ro = result_by_pattern_v2(patt)
+# print("pat2 : ", ro)
 # ro = result_by_sequence(28+27+2)
 # print("seq : ", ro)
-
-
-def cut_6pattern():
-    pass
-    # 6개씩 쪼개서 numpy array에 넣고 빈도수 체크
-
-def search_Frequency():
-    """
-    가장 자주 나오는 패턴 검색
-    :return:
-    """
-    pass
-
-
-# result_by_number(0, 1) # 현재 값 읽어서 하는 방향으로
-# result_by_latest("B")  # 현재 값 읽어서 하는 방향으로
-
+find_pattern()

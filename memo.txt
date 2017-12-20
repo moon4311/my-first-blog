@@ -53,7 +53,7 @@ kor.traindata ->  C:\program\Tesseract-OCR\tessdata
 
 
 
-
+문자열검색 - 브루트포쓰, 보이어모어, kmp
 
 
 

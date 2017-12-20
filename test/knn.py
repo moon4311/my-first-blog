@@ -7,6 +7,7 @@ import sys
 # FNAME = 'number.npz'
 FNAME = 'digits.npz'
 FNAMET = 'digitsT.npz'
+BTPNAME = 'btp.npz'
 
 def machineLearning():
     img = cv2.imread('images/digits.png')
@@ -34,13 +35,19 @@ def machineLearning2():
     # train_labels = np.repeat(k,500)[:,np.newaxis]
     # np.savez(FNAME,train=train,train_labels = train_labels)
     train = []
-    train_labels = []
-    for fname in glob.glob('images/*.jpg'):
+    train_labels = ["B","P","B","B","B","P",
+                    "B","P","B","P","B","B",
+                    "T","B","B","B","B","B",
+                    "T","B","P","B","B","B",
+                    "P","B","B","P","P","B",
+                    "P","B","B","B","B","P",
+                    "P","P","B","P","B","P"]
+    for fname in glob.glob('train/B2*.jpg'):
         cell = resize20(fname)
         train.append(cell)
-        label = fname.split("\\")[1][0]
-        train_labels.append(label)
-    np.savez(FNAMET, train=train, train_labels=train_labels)
+        # label = fname.split("\\")[1][0]
+        # train_labels.append(label)
+    np.savez(BTPNAME, train=train, train_labels=train_labels)
 
 
 def resize20(pimg):
@@ -56,8 +63,8 @@ def loadTrainData(fname):
     with np.load(fname) as data:
         train = data['train']
         train_labels = data['train_labels']
-    # cv2.imshow("frame", train[0])
-    # cv2.waitKey(0)
+    print(train)
+    print(train_labels)
     return train, train_labels
 
 def checkDigit(test, train, train_labels):
@@ -78,19 +85,17 @@ if __name__ == '__main__':
         # machineLearning()
         machineLearning2()
     elif sys.argv[1] == 'test':
-
-        train, train_labels = loadTrainData(FNAME)
+        train, train_labels = loadTrainData(BTPNAME)
 
         saveNpz = False
-        for fname in glob.glob('images/*.jpg'):
+        for fname in glob.glob('train/*.jpg'):
             test = resize20(fname)
             result = checkDigit(test, train, train_labels)
 
             print(fname, " : ", result)
 
             k = cv2.waitKey(0)
-
-            if k > 47 and k<58:
+            if k == 98 or k == 112 or k == 116:
                 saveNpz = True
                 train = np.append(train, test, axis=0)
                 newLabel = np.array(int(chr(k))).reshape(-1,1)
@@ -99,6 +104,6 @@ if __name__ == '__main__':
 
         cv2.destroyAllWindows()
         if saveNpz:
-            np.savez(FNAMET,train=train, train_labels=train_labels)
+            np.savez(BTPNAME,train=train, train_labels=train_labels)
     else:
         print('unknow option')

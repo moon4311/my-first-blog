@@ -4,31 +4,54 @@ import pytesseract
 from PIL import (Image, ImageGrab)
 from matplotlib import pyplot as plt
 
+x_width, y_width = 579, 170
 
-def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):
+B1_x, B1_y = 790, 228    # B1
+B2_x, B2_y = B1_x - x_width, B1_y + y_width  # B2
+B3_x, B3_y = B1_x, B2_y   # B3
+B4_x, B4_y = B2_x, B2_y + y_width  # B4
+B5_x, B5_y = B1_x, B4_y   # B5
+B6_x, B6_y = B2_x, B5_y + y_width  # B6
+B7_x, B7_y = B1_x, B6_y  # B7
+
+
+def image_read(name, x1, y1, lang="eng"):
     # 1.전처리 - 화면 크기 선택
+
+    w = x1 + 170
+    h = y1 + 103
     result = ""
-    while result.find("완료") != 0:
-        img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+    while True:
+        img = ImageGrab.grab(bbox=(x1, y1, w, h))
         img_np = np.array(img)
         # 2.전처리 - 원본 색깔로 변경
-        b,g,r = cv2.split(img_np)
-        img_np = cv2.merge([r,g,b])
+        b, g, r = cv2.split(img_np)
+        img_np = cv2.merge([r, g, b])
+
+        res = []
+        w2, h2 = 17, 17
+        for a in range(0, 10):
+            x2 = 17 * a
+            for b in range(0, 6):
+                y2 = 17 * b
+                crop_img = img_np[y2:y2 + h2, x2:x2 + w2]
+                fname = "train/" + name + str(a) + "_" + str(b) + ".jpg"
+                cv2.imwrite(fname, crop_img)
+                result = pytesseract.image_to_string(Image.open(fname), lang="eng")
+                res.append(result)
+        print(res)
+        # cv2.imshow("cropped", crop_img)
         # 3.전처리 - 크기 2배로 조정
         # img_np = cv2.pyrUp(img_np)
-        img_np = 255 - img_np
+        # img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)  # Gray 화
+        # img_np = 255 - img_np
         # 4.전처리 - 선명하게
-        kernel = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
-        img_np = cv2.filter2D(img_np, -1, kernel)
-        cv2.imshow("test",img_np)
-        cv2.imwrite(img_file, img_np)
-
-        # 5. Gray 화 >  2진화
-        img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)   # Gray 화
-        img_np = cv2.Canny(img_np,200,200)                     # 2진화
-
-        result = pytesseract.image_to_string(Image.open(img_file),lang)
-        print("result : ",result)
+        # kernel = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
+        # img_np = cv2.filter2D(img_np, -1, kernel)
+        # img_np = cv2.Canny(img_np, 150, 150)  # 2진화
+        # cv2.imshow("test", img_np)
+        # cv2.imwrite(img_file, img_np)  ## 주석 풀어야 한다.
+        # result = pytesseract.image_to_string(Image.open(img_file), lang="eng")
         key = cv2.waitKey(1)
         if key == 27:
             break
@@ -37,6 +60,7 @@ def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):
     # if(result.find())
     return result
 
+image_read("B2", B2_x, B2_y)
 
 
 def set_image(bbox):
@@ -51,7 +75,7 @@ def check_status():    # Finish! 1
     result = ""
     while result.find("완료") < 0:
         img_np = 255 - set_image((130, 380, 460, 420))
-        cv2.imshow("Fr", img_np)
+        # cv2.imshow("Fr", img_np)
         cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
         result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
         result = result.replace(" ", "")

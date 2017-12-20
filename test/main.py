@@ -3,7 +3,6 @@ import cv2
 import datetime
 import connector
 from mobile_collect import *
-from analysis import *
 from PIL import (Image, ImageGrab)
 import pyautogui as gui
 from matplotlib import pyplot as plt
@@ -19,14 +18,14 @@ data = {"g_id": "TEST", "sequence":	1,    "result": "T",
         "t": 1, "latest": ""}
 # conn.insert("result",data)
 g_id = conn.select_limit("result", {}, column=["g_id"])[0][0]
-# g_id = 10
+g_id = int(g_id) + 1
 
 xywh = ((150, 555, 190, 600), (570, 555, 610, 600))   # 40 x 40  STR
 filename = ("images/p_result.jpg", "images/b_result.jpg")
 xywh2 = ((154, 655, 174, 680), (203, 655, 223, 680),(252, 655, 272, 680))   # result Int
 filename2 = ("images/b_cnt.jpg", "images/p_cnt.jpg", "images/t_cnt.jpg")
 
-g_id = 2
+# g_id = 2
 while True :
         # while False :
         Id = check_status()

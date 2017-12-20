@@ -148,19 +148,19 @@ def find_pattern():
     print(result)
 
 
-b_val, p_val = 2, 1
-patt = "BPBPB"
+b_val, p_val = 6, 7
+patt = "PPPPP"
 ro = 0
-# ro = result_by_number(p_val, b_val)
-# print("num : ", ro)
-# ro = result_by_number_v2(p_val, b_val)
-# print("num2 : ", ro)
-# ro = result_by_number_v3(p_val, b_val, patt[-1])
-# print("num3 : ", ro)
-# ro = result_by_pattern(patt)
-# print("pat1 : ", ro)
-# ro = result_by_pattern_v2(patt)
-# print("pat2 : ", ro)
+ro = result_by_number(p_val, b_val)
+print("num : ", ro)
+ro = result_by_number_v2(p_val, b_val)
+print("num2 : ", ro)
+ro = result_by_number_v3(p_val, b_val, patt[-1])
+print("num3 : ", ro)
+ro = result_by_pattern(patt)
+print("pat1 : ", ro)
+ro = result_by_pattern_v2(patt)
+print("pat2 : ", ro)
 # ro = result_by_sequence(28+27+2)
 # print("seq : ", ro)
-find_pattern()
+# find_pattern()

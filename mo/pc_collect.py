@@ -1,0 +1,120 @@
+import numpy as np
+import cv2
+import glob
+import pytesseract
+from PIL import (Image, ImageGrab)
+from matplotlib import pyplot as plt
+
+x_width, y_width = 579, 170
+
+B1_x, B1_y = 790, 228    # B1
+B2_x, B2_y = B1_x - x_width, B1_y + y_width  # B2
+B3_x, B3_y = B1_x, B2_y   # B3
+B4_x, B4_y = B2_x, B2_y + y_width  # B4
+B5_x, B5_y = B1_x, B4_y   # B5
+B6_x, B6_y = B2_x, B5_y + y_width  # B6
+B7_x, B7_y = B1_x, B6_y  # B7
+
+def image_read():
+    str=""
+    for fname in glob.glob('train/B2*.jpg'):
+        img_np = cv2.imread(fname)
+        img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+        # img_np = 255 - cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)  # 제거해도 숫자인식 문제없는지 확인
+        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+        img_np = cv2.filter2D(img_np, -1, kernel)
+        save = img_np[6:25, 9:26]
+        # img_np = cv2.Canny(img_np, 300, 300)  # 2진화
+        cv2.imwrite("train/temp6.jpg", save)
+        result = pytesseract.image_to_string(Image.open("train/temp6.jpg"), lang="eng", config='--psm 10')
+        str = str+result
+    print(str)
+
+def image_read_set(name, x1, y1, lang="eng"):
+    # 1.전처리 - 화면 크기 선택
+
+    w = x1 + 170
+    h = y1 + 103
+    result = ""
+    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+    w2, h2 = 17, 17
+    # while True:
+    img_np = set_image((x1, y1, w, h))
+    result = ""
+    for a in range(0, 10):
+        x2 = w2 * a
+        for b in range(0, 6):
+            y2 = h2 * b
+            fname = "train/" + name + str(a) + str(b) + ".jpg"
+
+            ## 원래 방식
+            # crop_img = img_np[y2:y2 + h2, x2:x2 + w2] # 한칸 크기로 줄임
+            # img_np = cv2.pyrUp(crop_img)  # 이미지 가로x2 세로x2
+            # img_np = cv2.filter2D(img_np, -1, kernel)
+            # save = img_np[6:25, 9:26]
+
+            #간소화 방식
+            crop_img = img_np[y2+3 : y2 + h2 - 4, x2+4 : x2 + w2 - 4] # 한칸 크기로 줄임
+            img_np = cv2.pyrUp(crop_img)  # 이미지 가로x2 세로x2
+            save = cv2.filter2D(img_np, -1, kernel)
+
+            cv2.imwrite(fname, save)
+            char = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
+            result = result + char
+        # key = cv2.waitKey(1)
+        # if key == 27:
+        #     break
+    # cv2.waitKey(0)  # 3초마다 확인
+    # cv2.destroyAllWindows()
+    return result
+
+
+
+def image_read_one(name, x1, y1, lang="eng"):
+    # 1.전처리 - 화면 크기 선택
+
+    w = x1 + 170
+    h = y1 + 103
+    result = ""
+    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+    w2, h2 = 17, 17
+    # while True:
+    img_np = set_image((x1, y1, w, h))
+    result = ""
+    for a in range(0, 10):
+        x2 = w2 * a
+        for b in range(0, 6):
+            y2 = h2 * b
+            fname = "train/" + name + str(a) + str(b) + ".jpg"
+
+            ## 원래 방식
+            # crop_img = img_np[y2:y2 + h2, x2:x2 + w2] # 한칸 크기로 줄임
+            # img_np = cv2.pyrUp(crop_img)  # 이미지 가로x2 세로x2
+            # img_np = cv2.filter2D(img_np, -1, kernel)
+            # save = img_np[6:25, 9:26]
+
+            #간소화 방식
+            crop_img = img_np[y2+3 : y2 + h2 - 4, x2+4 : x2 + w2 - 4] # 한칸 크기로 줄임
+            img_np = cv2.pyrUp(crop_img)  # 이미지 가로x2 세로x2
+            save = cv2.filter2D(img_np, -1, kernel)
+
+            cv2.imwrite(fname, save)
+            char = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
+            result = result + char
+        # key = cv2.waitKey(1)
+        # if key == 27:
+        #     break
+    # cv2.waitKey(0)  # 3초마다 확인
+    # cv2.destroyAllWindows()
+    return result
+
+
+
+
+
+
+def set_image(bbox):
+    img = ImageGrab.grab(bbox=bbox)
+    img_np = np.array(img)
+    b,g,r = cv2.split(img_np)
+    return cv2.merge([r, g, b])

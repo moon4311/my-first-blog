@@ -97,10 +97,10 @@ class Connector:
 
     def select_latest(self):
         query = "SELECT latest FROM result GROUP BY g_id"
-        return self.select(query, {})
+        result = {"P": 0, "B": 0, "T": 0}
+        return self.select(query, {}), result
 
     def select(self, query, param):
-        # print("select > ", query)
         conn = self.connect()
         cur = conn.cursor()
         cur.execute(query, param)
@@ -117,15 +117,16 @@ class Connector:
         conn = self.connect()
         keys = str(tuple(insert_data.keys()))
         values = str(tuple(insert_data.values()))
-        sql = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
-        print("insert : ", sql)
+        query = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
+        print("insert : ", query)
+        bool = True
         try:
             cur = conn.cursor()
-            cur.execute(sql)
+            cur.execute(query)
             conn.commit()
         except Error as e:
             print("ERROR : ", e)
-            return False
+            bool = False
         finally:
             conn.close()
-        return True
+        return bool

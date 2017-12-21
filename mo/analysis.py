@@ -5,23 +5,23 @@ from itertools import combinations
 conn = connector.Connector()
 
 
+# A type : All data
+# B type : latest data
+
 def result_rate(dic):
-    result = {"P": 0, "B": 0, "T": 0}
-    if dic:
-        cnt_total = sum(dic.values())
-        for char in dic:
-            result.__setitem__(char, dic.get(char))
-            if dic.get(char) > 0:
-                result[char+"%"] = round(dic.get(char) / cnt_total * 100)
-            else:
-                result[char+"%"] = 0
+    result = dic.copy()
+    cnt_total = sum(dic.values())
+    for char in dic:
+        if dic.get(char) > 0:
+            result[char+"%"] = round(dic.get(char) / cnt_total * 100)
+        else:
+            result[char+"%"] = 0
     return result
 
 
-def result_by_number(p_cnt, b_cnt):
+def result_by_number(p_cnt, b_cnt):  # A type
     """
     :param : result Table 의 ex 값과 현재 p,b 값
-    :return: {'P': 0, 'B': 100, 'T': 0}
     """
     # rows = conn.select_all("result", {"ex_p": p_val, "ex_b": b_val})
     query = "SELECT result, count(*) FROM result " \
@@ -35,9 +35,8 @@ def result_by_number(p_cnt, b_cnt):
     return result_rate(result)
 
 
-def result_by_number_v2(p_cnt, b_cnt):
-    result = {"P": 0, "B": 0, "T": 0}
-    rows = conn.select_latest()
+def result_by_number_v2(p_cnt, b_cnt): # B type
+    rows, result = conn.select_latest()
     for row in rows:
         for a in range(p_cnt+b_cnt, len(row[0])):
             st = row[0][:a]
@@ -50,9 +49,8 @@ def result_by_number_v2(p_cnt, b_cnt):
     return result_rate(result)
 
 
-def result_by_number_v3(p_cnt, b_cnt, last):
-    result = {"P": 0, "B": 0, "T": 0}
-    rows = conn.select_latest()
+def result_by_number_v3(p_cnt, b_cnt, last):  # B type
+    rows, result = conn.select_latest()
     for row in rows:
         for a in range(p_cnt+b_cnt, len(row[0])):
             st = row[0][:a]
@@ -66,8 +64,7 @@ def result_by_number_v3(p_cnt, b_cnt, last):
 
 
 def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
-    result = {"P": 0, "B": 0, "T": 0}
-    rows = conn.select_latest()
+    rows, result = conn.select_latest()
     for row in rows:
         char = row[0][seq]
         result.__setitem__(char, result.get(char)+1)
@@ -97,8 +94,7 @@ def result_by_pattern_v2(pattern):
     :param pattern:
     :return:
     """
-    result = {"P": 0, "B": 0, "T": 0}
-    rows = conn.select_latest()
+    rows, result = conn.select_latest()
     for char in result:
         for row in rows:
             st = row[0]
@@ -107,7 +103,7 @@ def result_by_pattern_v2(pattern):
 
 
 def cut_pattern(cnt):
-    rows = conn.select_latest()
+    rows, result = conn.select_latest()
     arr = []
     tu = {}
     for row in rows:
@@ -126,7 +122,7 @@ def cut_pattern(cnt):
 
 
 def find_pattern():
-    rows = conn.select_latest()
+    rows, result = conn.select_latest()
     dic, result = {}, {}
     for row in combinations(rows, 2):
         t1, t2 = row[0][0], row[1][0]
@@ -144,23 +140,43 @@ def find_pattern():
     for a in dic: #일정 개수 이상인 경우 선별
         if dic.get(a) > 100:
             result[a] = dic.get(a)
-
     print(result)
 
 
-b_val, p_val = 6, 7
-patt = "PPPPP"
-ro = 0
-ro = result_by_number(p_val, b_val)
-print("num : ", ro)
-ro = result_by_number_v2(p_val, b_val)
-print("num2 : ", ro)
-ro = result_by_number_v3(p_val, b_val, patt[-1])
-print("num3 : ", ro)
-ro = result_by_pattern(patt)
-print("pat1 : ", ro)
-ro = result_by_pattern_v2(patt)
-print("pat2 : ", ro)
+def synchro_rate():
+    rows, result = conn.select_latest()
+    setss = set()
+    for row in combinations(rows, 2):
+        score = 0
+        t1, t2 = row[0][0], row[1][0]
+        lt1, lt2 = len(t1), len(t2)
+        if lt1 > lt2:
+            cnt = lt2
+        else:
+            cnt = lt1
+        for a in range(cnt):
+            if t1[a] == t2[a]:
+                score = score + 1
+        setss.add((score, t1, t2))
+        print(score, t1, t2)
+
+    for a in setss:
+        pass
+
+# b_val, p_val = 6, 7
+# patt = "PPPPP"
+# ro = 0
+# ro = result_by_number(p_val, b_val)
+# print("num : ", ro)
+# ro = result_by_number_v2(p_val, b_val)
+# print("num2 : ", ro)
+# ro = result_by_number_v3(p_val, b_val, patt[-1])
+# print("num3 : ", ro)
+# ro = result_by_pattern(patt)
+# print("pat1 : ", ro)
+# ro = result_by_pattern_v2(patt)
+# print("pat2 : ", ro)
 # ro = result_by_sequence(28+27+2)
 # print("seq : ", ro)
 # find_pattern()
+synchro_rate()

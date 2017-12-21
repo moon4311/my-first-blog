@@ -35,13 +35,13 @@ def machineLearning2():
     # train_labels = np.repeat(k,500)[:,np.newaxis]
     # np.savez(FNAME,train=train,train_labels = train_labels)
     train = []
-    train_labels = ["B","P","B","B","B","P",
-                    "B","P","B","P","B","B",
-                    "T","B","B","B","B","B",
-                    "T","B","P","B","B","B",
-                    "P","B","B","P","P","B",
-                    "P","B","B","B","B","P",
-                    "P","P","B","P","B","P"]
+    train_labels = ["B", "P", "B", "B", "B", "P",
+                    "B", "P", "B", "P", "B", "B",
+                    "T", "B", "B", "B", "B", "B",
+                    "T", "B", "P", "B", "B", "B",
+                    "P", "B", "B", "P", "P", "B",
+                    "P", "B", "B","B", "B"," P",
+                    "P", "P", "B", "P", "B", "P"]
     for fname in glob.glob('train/B2*.jpg'):
         cell = resize20(fname)
         train.append(cell)
@@ -55,9 +55,9 @@ def resize20(pimg):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     grayResize = 255 - cv2.resize(gray, (20, 20))
     # ret, thresh = cv2.threshold(grayResize, 125, 255,cv2.THRESH_BINARY_INV)
-    cv2.imshow('num', grayResize)
+    # cv2.imshow('num', grayResize)
 
-    return grayResize.reshape(-1,400).astype(np.float32)
+    return grayResize.reshape(-1, 400).astype(np.float32)
 
 def loadTrainData(fname):
     with np.load(fname) as data:
@@ -69,6 +69,7 @@ def loadTrainData(fname):
 
 def checkDigit(test, train, train_labels):
     knn = cv2.ml.KNearest_create()
+
     knn.train(train, cv2.ml.ROW_SAMPLE, train_labels)
 
     ret, result, neighbours, dist = knn.findNearest(test, k=5)
@@ -95,7 +96,8 @@ if __name__ == '__main__':
             print(fname, " : ", result)
 
             k = cv2.waitKey(0)
-            if k == 98 or k == 112 or k == 116:
+            # if k == 98 or k == 112 or k == 116:
+            if k == 66 or k == 80 or k == 84:
                 saveNpz = True
                 train = np.append(train, test, axis=0)
                 newLabel = np.array(int(chr(k))).reshape(-1,1)

@@ -23,30 +23,29 @@ B7 = [B1[0], B6[1]]
 # B6_x, B6_y = B2_x, B5_y + y_width  # B6
 # B7_x, B7_y = B1_x, B6_y  # B7
 
-def image_read():
+
+def image_read_test():
     str=""
     for fname in glob.glob('train/B2*.jpg'):
         img_np = cv2.imread(fname)
         img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
-        # img_np = 255 - cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)  # 제거해도 숫자인식 문제없는지 확인
         kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
         img_np = cv2.filter2D(img_np, -1, kernel)
         save = img_np[6:25, 9:26]
-        # img_np = cv2.Canny(img_np, 300, 300)  # 2진화
         cv2.imwrite("train/temp6.jpg", save)
         result = pytesseract.image_to_string(Image.open("train/temp6.jpg"), lang="eng", config='--psm 10')
         str = str+result
     print(str)
+
 
 def image_read_set(name, x1, y1, lang="eng"):
     # 1.전처리 - 화면 크기 선택
 
     w = x1 + 170
     h = y1 + 103
+    w2, h2 = 17, 17
     result = ""
     kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-    w2, h2 = 17, 17
-    # while True:
     img_np = set_image((x1, y1, w, h))
     result = ""
     for a in range(0, 10):
@@ -61,10 +60,13 @@ def image_read_set(name, x1, y1, lang="eng"):
             # img_np = cv2.filter2D(img_np, -1, kernel)
             # save = img_np[6:25, 9:26]
 
-            #간소화 방식
+            #간소화 방식 1
             crop_img = img_np[y2+3 : y2 + h2 - 4, x2+4 : x2 + w2 - 4] # 한칸 크기로 줄임
             img_np = cv2.pyrUp(crop_img)  # 이미지 가로x2 세로x2
             save = cv2.filter2D(img_np, -1, kernel)
+
+            #간소화 방식 2
+            save = cv2.filter2D(cv2.pyrUp(img_np[y2 + 3: y2 + h2 - 4, x2 + 4: x2 + w2 - 4]), -1, kernel)
 
             cv2.imwrite(fname, save)
             char = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
@@ -87,8 +89,7 @@ def image_read_after_insert(name, xy):
     x, y = xy
     w, h = x + 170, y + 103
     g_id = int(conn.select_limit("result", {}, column=["g_id"])[0][0]) + 1
-    seq = 1
-    ex_p, ex_b, p, b, t = 0, 0, 0, 0, 0
+    seq, ex_p, ex_b, p, b, t = 0, 0, 0, 0, 0, 0
     latest = ""
     kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
     img = set_image((x, y, w, h))
@@ -103,14 +104,15 @@ def image_read_after_insert(name, xy):
             cv2.imwrite(fname, cv2.filter2D(cv2.pyrUp(img[y2+3: y2 + h2 - 4, x2+4: x2 + w2 - 4]), -1, kernel))
             result = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
             if result == "":
-                break
+                print(name + " " + seq + "번")
+                return
             else:
                 latest = latest + result
                 p = p+1 if result == "P" else p
                 b = b+1 if result == "B" else b
                 t = t+1 if result == "T" else t
-                row = {"g_id": g_id, "sequence": seq, "result": result, "latest": latest,
-                       "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t }
+                row = {"g_id": g_id, "sequence": seq + 1, "result": result, "latest": latest,
+                       "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t}
                 conn.insert("result", row)
                 ex_p, ex_b = p, b
 

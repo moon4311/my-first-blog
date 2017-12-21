@@ -1,16 +1,8 @@
 import time
-import cv2
-import datetime
 import connector
 from mobile_collect import *
-from PIL import (Image, ImageGrab)
-import pyautogui as gui
-from matplotlib import pyplot as plt
-
 
 conn = connector.Connector()
-
-# print(check_status())
 
 data = {"g_id": "TEST", "sequence":	1,    "result": "T",
         "ex_p": 0,    "ex_b": 0,

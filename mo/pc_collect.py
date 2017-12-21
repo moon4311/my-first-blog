@@ -4,7 +4,6 @@ import glob
 import pytesseract
 import connector
 from PIL import (Image, ImageGrab)
-from matplotlib import pyplot as plt
 
 width, height = 579, 170
 

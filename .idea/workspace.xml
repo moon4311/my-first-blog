@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d3d967-665d-42f4-a18c-582a9c08dfc2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/mo/main.py" afterPath="$PROJECT_DIR$/mo/main.py" />
+      <change beforePath="$PROJECT_DIR$/mo/mobile_collect.py" afterPath="$PROJECT_DIR$/mo/mobile_collect.py" />
       <change beforePath="$PROJECT_DIR$/mo/pc_collect.py" afterPath="$PROJECT_DIR$/mo/pc_collect.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,7 +19,7 @@
       <file leaf-file-name="analysis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mo/analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
+            <state relative-caret-position="475">
               <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -25,57 +28,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connector.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mo/connector.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1121">
-              <caret line="43" column="22" lean-forward="true" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="knn.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mo/knn.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="mobile_collect.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mo/mobile_collect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state relative-caret-position="76">
+              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#180#1172#0" expanded="false" />
+                <element signature="e#143#1135#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pc_collect.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pc_collect.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mo/pc_collect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="123" column="27" lean-forward="true" selection-start-line="123" selection-start-column="27" selection-end-line="123" selection-end-column="27" />
+            <state relative-caret-position="152">
+              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pytesseract.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/pytesseract/pytesseract.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="101" column="27" lean-forward="true" selection-start-line="101" selection-start-column="27" selection-end-line="101" selection-end-column="27" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -90,22 +63,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mo/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="10" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pattern.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/pattern.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-              <folding />
+            <state relative-caret-position="358">
+              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -170,7 +135,9 @@
         <option value="$PROJECT_DIR$/test/analysis.py" />
         <option value="$PROJECT_DIR$/test/connector.py" />
         <option value="$PROJECT_DIR$/test/knn.py" />
+        <option value="$PROJECT_DIR$/mo/mobile_collect.py" />
         <option value="$PROJECT_DIR$/mo/pc_collect.py" />
+        <option value="$PROJECT_DIR$/mo/main.py" />
       </list>
     </option>
   </component>
@@ -232,6 +199,37 @@
               <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
               <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
               <item name="mo" type="462c0819:PsiDirectoryNode" />
+              <item name="analysis.py" type="8704e2dd:PyFileNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="mo" type="462c0819:PsiDirectoryNode" />
+              <item name="connector.py" type="8704e2dd:PyFileNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="mo" type="462c0819:PsiDirectoryNode" />
+              <item name="connector.py" type="8704e2dd:PyFileNode" />
+              <item name="Connector" type="dd8bbb05:PyElementNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="mo" type="462c0819:PsiDirectoryNode" />
+              <item name="knn.py" type="8704e2dd:PyFileNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="mo" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile_collect.py" type="8704e2dd:PyFileNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="mo" type="462c0819:PsiDirectoryNode" />
               <item name="pc_collect.py" type="8704e2dd:PyFileNode" />
             </path>
             <path>
@@ -278,14 +276,6 @@
               <item name="&lt; Python 3.6 (djangogirls) &gt;" type="70bed36:NamedLibraryElementNode" />
               <item name="site-packages" type="462c0819:PsiDirectoryNode" />
               <item name="pytesseract" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.6 (djangogirls) &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-              <item name="pytesseract" type="462c0819:PsiDirectoryNode" />
-              <item name="pytesseract.py" type="8704e2dd:PyFileNode" />
             </path>
             <path>
               <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
@@ -503,12 +493,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mo/main.py</url>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="10" />
     </breakpoint-manager>
     <watches-manager />
@@ -815,16 +799,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mo/analysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/pytesseract/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -835,53 +809,69 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/pytesseract/pytesseract.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="101" column="27" lean-forward="true" selection-start-line="101" selection-start-column="27" selection-end-line="101" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mo/knn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mo/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="380">
+          <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mo/mobile_collect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        <state relative-caret-position="76">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#180#1172#0" expanded="false" />
+            <element signature="e#143#1135#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mo/pc_collect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mo/knn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#23#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mo/connector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1121">
+        <state relative-caret-position="817">
           <caret line="43" column="22" lean-forward="true" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#1#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mo/pc_collect.py">
+    <entry file="file://$PROJECT_DIR$/mo/analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="123" column="27" lean-forward="true" selection-start-line="123" selection-start-column="27" selection-end-line="123" selection-end-column="27" />
+        <state relative-caret-position="475">
+          <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mo/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>

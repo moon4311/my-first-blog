@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 import pytesseract
 from PIL import (Image, ImageGrab)
-from matplotlib import pyplot as plt
 
 
 def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):

@@ -63,12 +63,12 @@ def result_by_number_v3(p_cnt, b_cnt, last):  # B type
     return result_rate(result)
 
 
-def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
-    rows, result = conn.select_latest()
-    for row in rows:
-        char = row[0][seq]
-        result.__setitem__(char, result.get(char)+1)
-    return result_rate(result)
+# def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
+#     rows, result = conn.select_latest()
+#     for row in rows:
+#         char = row[0][seq]
+#         result.__setitem__(char, result.get(char)+1)
+#     return result_rate(result)
 
 
 def result_by_pattern(pattern):
@@ -126,7 +126,7 @@ def find_pattern():
     dic, result = {}, {}
     for row in combinations(rows, 2):
         t1, t2 = row[0][0], row[1][0]
-        for a in range(6, 7):  # 글자수
+        for a in range(5, 6):  # 글자수
             for b in range(len(t1) - a):  # A의 위치
                 str_a = t1[b:a + b]
                 for c in range(len(t2) - a):  # B의 위치
@@ -163,20 +163,17 @@ def synchro_rate():
     for a in setss:
         pass
 
-# b_val, p_val = 6, 7
-# patt = "PPPPP"
-# ro = 0
-# ro = result_by_number(p_val, b_val)
-# print("num : ", ro)
-# ro = result_by_number_v2(p_val, b_val)
-# print("num2 : ", ro)
-# ro = result_by_number_v3(p_val, b_val, patt[-1])
-# print("num3 : ", ro)
-# ro = result_by_pattern(patt)
-# print("pat1 : ", ro)
-# ro = result_by_pattern_v2(patt)
-# print("pat2 : ", ro)
-# ro = result_by_sequence(28+27+2)
-# print("seq : ", ro)
-# find_pattern()
-synchro_rate()
+b_val, p_val = 7, 9
+patt = "B"
+ro = result_by_number(p_val, b_val)
+print("num : ", ro)
+ro = result_by_number_v2(p_val, b_val)
+print("num2 : ", ro)
+ro = result_by_number_v3(p_val, b_val, patt[-1])
+print("num3 : ", ro)
+ro = result_by_pattern(patt)
+print("pat1 : ", ro)
+ro = result_by_pattern_v2(patt)
+print("pat2 : ", ro)
+find_pattern()
+# synchro_rate()

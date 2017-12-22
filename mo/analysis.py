@@ -1,7 +1,7 @@
 import numpy as np
 import connector
 from itertools import combinations
-
+import matplotlib.pyplot as plt
 conn = connector.Connector()
 
 
@@ -62,6 +62,32 @@ def result_by_number_v3(p_cnt, b_cnt, last):  # B type
                 break
     return result_rate(result)
 
+
+def drow_graph():
+    rows, result = conn.select_latest()
+    for row in rows:
+        # row = rows[25]
+        xs, ys, zs, cs, bs =[], [], [], [], []
+        x, y, cnt = 0, 0, 0
+        latest = row[0]
+        for char in latest:
+            if char == "P":
+                x = x + 1
+            elif char == "B":
+                y = y + 1
+            cnt = cnt + 1
+            xs.append(x)
+            ys.append(y)
+            zs.append(y - x)
+            bs.append(0)
+            # cs.append(cnt / 2)
+            cs.append(cnt)
+       # plt.plot(xs, ys)
+        plt.plot(cs, zs)
+        plt.plot(cs, bs)
+    plt.show()
+
+drow_graph()
 
 # def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
 #     rows, result = conn.select_latest()
@@ -163,17 +189,17 @@ def synchro_rate():
     for a in setss:
         pass
 
-b_val, p_val = 7, 9
-patt = "B"
-ro = result_by_number(p_val, b_val)
-print("num : ", ro)
-ro = result_by_number_v2(p_val, b_val)
-print("num2 : ", ro)
-ro = result_by_number_v3(p_val, b_val, patt[-1])
-print("num3 : ", ro)
-ro = result_by_pattern(patt)
-print("pat1 : ", ro)
-ro = result_by_pattern_v2(patt)
-print("pat2 : ", ro)
-find_pattern()
-# synchro_rate()
+# b_val, p_val = 7, 9
+# patt = "B"
+# ro = result_by_number(p_val, b_val)
+# print("num : ", ro)
+# ro = result_by_number_v2(p_val, b_val)
+# print("num2 : ", ro)
+# ro = result_by_number_v3(p_val, b_val, patt[-1])
+# print("num3 : ", ro)
+# ro = result_by_pattern(patt)
+# print("pat1 : ", ro)
+# ro = result_by_pattern_v2(patt)
+# print("pat2 : ", ro)
+# find_pattern()
+# # synchro_rate()

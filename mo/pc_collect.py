@@ -31,7 +31,7 @@ def set_image(bbox):
 
 
 def image_read_test():
-    str=""
+    strr=""
     for fname in glob.glob('train/B2*.jpg'):
         img_np = cv2.imread(fname)
         img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
@@ -40,8 +40,8 @@ def image_read_test():
         save = img_np[6:25, 9:26]
         cv2.imwrite("train/temp6.jpg", save)
         result = pytesseract.image_to_string(Image.open("train/temp6.jpg"), lang="eng", config='--psm 10')
-        str = str+result
-    print(str)
+        strr = strr+result
+    print(strr)
 
 
 def image_read_set(name, x1, y1, lang="eng"):
@@ -115,11 +115,9 @@ def image_read_after_insert(name, xy):  ## ********
             # k = cv2.waitKey(0)
             # if k == 27:
             #     break
-            # result = ""
             cv2.imwrite(fname, save)
-            # cv2.imwrite(fname, cv2.filter2D(cv2.pyrUp(img[y2+3: y2 + h2 - 4, x2+4: x2 + w2 - 4]), -1, kernel))
             result = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
-            if (result == "7") | (result == "1") | (result ==""):
+            if (result == "7") | (result == "1") | (result == ""):
                 result = "T"
             result = str(result.upper())
             if (result != "P") & (result != "B") & (result != "T"):
@@ -129,7 +127,7 @@ def image_read_after_insert(name, xy):  ## ********
                 latest = latest + result
                 if result == "P":
                     p = p+1
-                elif result =="B":
+                elif result == "B":
                     b = b+1
                 elif result == "T":
                     t = t+1
@@ -137,4 +135,4 @@ def image_read_after_insert(name, xy):  ## ********
                        "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t}
                 conn.insert("result", row)
                 ex_p, ex_b = p, b
-                seq = seq + 1
+                seq = seq+1

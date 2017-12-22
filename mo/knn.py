@@ -7,7 +7,6 @@ import sys
 # FNAME = 'number.npz'
 FNAME = 'digits.npz'
 FNAMET = 'digitsT.npz'
-BTPNAME = 'btp.npz'
 
 def machineLearning():
     img = cv2.imread('images/digits.png')
@@ -47,7 +46,7 @@ def machineLearning2():
         train.append(cell)
         # label = fname.split("\\")[1][0]
         # train_labels.append(label)
-    np.savez(BTPNAME, train=train, train_labels=train_labels)
+    np.savez(FNAME, train=train, train_labels=train_labels)
 
 
 def resize20(pimg):
@@ -86,7 +85,7 @@ if __name__ == '__main__':
         # machineLearning()
         machineLearning2()
     elif sys.argv[1] == 'test':
-        train, train_labels = loadTrainData(BTPNAME)
+        train, train_labels = loadTrainData(FNAME)
 
         saveNpz = False
         for fname in glob.glob('train/*.jpg'):
@@ -106,6 +105,6 @@ if __name__ == '__main__':
 
         cv2.destroyAllWindows()
         if saveNpz:
-            np.savez(BTPNAME,train=train, train_labels=train_labels)
+            np.savez(FNAME,train=train, train_labels=train_labels)
     else:
         print('unknow option')

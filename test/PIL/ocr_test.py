@@ -9,9 +9,10 @@ def OCR(imgfile, lang='eng'):
     # cv2.imshow("f", img_np)
     # cv2.waitKey(0)
     im = Image.open(imgfile)
-    print(im.split())
-    pytesseract.image_to_string(im)
+    text= pytesseract.image_to_string(im,lang=lang)
+    print(text)
 
     # print(text)
 
-OCR('ocr_test.jpg')
+# OCR('ocr_test.jpg')
+OCR('korean_ocr.png','kor')

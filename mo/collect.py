@@ -48,9 +48,14 @@ import pc_collect as pc
 # 15:43 B2 B1 B4 B3 C5 C1  C2 B7      /B6, B5 , C3 C6
 # 16:53 C1 C3 C6 B3 B5 B4 B6 B7  /   C2 C5 B1 B2 B4 B6
 
-# 22:00 B3 B6 B7 C1 C6
+# 22:00 B3 B6 B7 C1 C6 C2 B5 B2 B4 C3 C5 B1 B6
 pc.image_read_after_insert_detail()
+# C1 C2 C6 B3 B5 B7
+
+# pc.image_read_after_insert("C1", pc.B1) # 22:04
+# pc.image_read_after_insert("C1", pc.B4) # 22:04
 # pc.image_read_after_insert("C1", pc.B6) # 22:04
+# pc.image_read_after_insert("C1", pc.B7) # 22:04
 # pc.image_read_after_insert("B7", pc.B1) # 22:04
 # pc.image_read_after_insert("B7", pc.B3) # 22:04
-# pc.image_read_after_insert("B7", pc.B5) # 22:04
+# pc.image_read_after_insert("B7", pc.B4) # 22:04

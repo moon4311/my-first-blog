@@ -82,12 +82,12 @@ def drow_graph():
             bs.append(0)
             # cs.append(cnt / 2)
             cs.append(cnt)
-       # plt.plot(xs, ys)
-        plt.plot(cs, zs)
-        plt.plot(cs, bs)
+        plt.plot(xs, ys)
+        plt.plot(cs, cs)
+        # plt.plot(cs, bs)
     plt.show()
 
-drow_graph()
+# drow_graph()
 
 # def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
 #     rows, result = conn.select_latest()
@@ -189,17 +189,17 @@ def synchro_rate():
     for a in setss:
         pass
 
-# b_val, p_val = 7, 9
-# patt = "B"
-# ro = result_by_number(p_val, b_val)
-# print("num : ", ro)
-# ro = result_by_number_v2(p_val, b_val)
-# print("num2 : ", ro)
-# ro = result_by_number_v3(p_val, b_val, patt[-1])
-# print("num3 : ", ro)
-# ro = result_by_pattern(patt)
-# print("pat1 : ", ro)
-# ro = result_by_pattern_v2(patt)
-# print("pat2 : ", ro)
+b_val, p_val = 23, 14
+patt = "PBPBPTB"
+ro = result_by_number(p_val, b_val)
+print("num : ", ro)
+ro = result_by_number_v2(p_val, b_val)
+print("num2 : ", ro)
+ro = result_by_number_v3(p_val, b_val, patt[-1])
+print("num3 : ", ro)
+ro = result_by_pattern(patt)
+print("pat1 : ", ro)
+ro = result_by_pattern_v2(patt)
+print("pat2 : ", ro)
 # find_pattern()
 # # synchro_rate()

@@ -32,16 +32,17 @@ def set_image(bbox):
 
 def image_read_test():
     strr=""
-    for fname in glob.glob('train/B2*.jpg'):
-        img_np = cv2.imread(fname)
-        img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
-        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-        img_np = cv2.filter2D(img_np, -1, kernel)
-        save = img_np[6:25, 9:26]
-        cv2.imwrite("train/temp6.jpg", save)
-        result = pytesseract.image_to_string(Image.open("train/temp6.jpg"), lang="eng", config='--psm 10')
+    for fname in glob.glob('train/B4*.jpg'):
+        # img_np = cv2.imread(fname)
+        # img_np = cv2.pyrUp(img_np)                          # 이미지 가로x2 세로x2
+        # kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+        # img_np = cv2.filter2D(img_np, -1, kernel)
+        # save = img_np[6:25, 9:26]
+        # cv2.imwrite("train/temp6.jpg", save)
+        result = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
+        print(fname, ":", result)
         strr = strr+result
-    print(strr)
+    # print(strr)
 
 
 def image_read_set(name, x1, y1, lang="eng"):
@@ -97,42 +98,86 @@ def image_read_after_insert(name, xy):  ## ********
     g_id = int(conn.select_limit("result", {}, column=["g_id"], order_by="g_id desc")[0][0]) + 1
     seq, ex_p, ex_b, p, b, t = 1, 0, 0, 0, 0, 0
     latest = ""
-    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
     img = set_image((x, y, w, h))
-
+    data = []
     w2, h2 = 17, 17
     for i in range(0, 10):
         x2 = w2 * i
         for j in range(0, 6):
             y2 = h2 * j
-            fname = "train/" + name + "_" + str(g_id)+"_" + str(seq) + ".jpg"
-
-            ## 원래 방식
-            crop_img = img[y2:y2 + w2, x2:x2 + h2]  # 한칸 크기로 줄임
-            img_np = cv2.cvtColor(cv2.filter2D(cv2.pyrUp(crop_img), -1, kernel), cv2.COLOR_BGR2GRAY)  # Gray 화
-            save = 255 - img_np[6: 25, 9:26]
-            # cv2.imshow("fF", save)
-            # k = cv2.waitKey(0)
-            # if k == 27:
-            #     break
-            cv2.imwrite(fname, save)
-            result = pytesseract.image_to_string(Image.open(fname), lang="eng", config='--psm 10')
-            if (result == "7") | (result == "1") | (result == ""):
+            result = ""
+            # c, g, r = img[y2+10:y2 + 11, x2+3:x2 + 4][0][0]  # 한칸 크기로 줄임
+            c, g, r = img[y2 + 8:y2 + 9, x2 + 3:x2 + 4][0][0]  # 한칸 크기로 줄임
+            print(r, g, c)
+            if (r > 100) & (g > 100):
+                break
+            elif (g > r) & (g > c):
                 result = "T"
-            result = str(result.upper())
-            if (result != "P") & (result != "B") & (result != "T"):
-                print(name + " " + str(seq) + "번" + result)
-                return
-            else:
-                latest = latest + result
-                if result == "P":
-                    p = p+1
-                elif result == "B":
-                    b = b+1
-                elif result == "T":
-                    t = t+1
-                row = {"g_id": g_id, "sequence": seq, "result": result, "latest": latest,
-                       "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t}
-                conn.insert("result", row)
-                ex_p, ex_b = p, b
-                seq = seq+1
+                t = t + 1
+            elif c > r:
+                result = "P"
+                p = p + 1
+            elif r > c:
+                result = "B"
+                b = b + 1
+            latest = latest + result
+            row = {"g_id": g_id, "sequence": seq, "result": result, "latest": latest,
+                   "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t}
+            print(row)
+            data.append(row)
+            ex_p, ex_b = p, b
+            seq = seq + 1
+    conn.insert_v2("result", data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def image_read_after_insert_detail():  ## ********
+    """
+    :param name:  "B1" ~ "B7"
+    :return:
+    """
+    conn = connector.Connector()
+    g_id = int(conn.select_limit("result", {}, column=["g_id"], order_by="g_id desc")[0][0]) + 1
+    seq, ex_p, ex_b, p, b, t = 1, 0, 0, 0, 0, 0
+    latest = ""
+    data = []
+    img = set_image((107, 747, 327, 877))
+
+    w2, h2 = 22, 22
+    for i in range(0, 10):
+        x2 = w2 * i
+        for j in range(0, 6):
+            y2 = h2 * j
+            result = ""
+            c, g, r = img[y2+10:y2 + 11, x2+3:x2 + 4][0][0]  # 한칸 크기로 줄임
+            print(r, g, c)
+            if (r > 100) & (g > 100):
+                break
+            elif (g > r) & (g > c):
+                result = "T"
+                t = t + 1
+            elif c > r:
+                result = "P"
+                p = p + 1
+            elif r > c:
+                result = "B"
+                b = b + 1
+            latest = latest + result
+            row = {"g_id": g_id, "sequence": seq, "result": result, "latest": latest,
+                   "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t}
+            print(row)
+            data.append(row)
+            ex_p, ex_b = p, b
+            seq = seq + 1
+    conn.insert_v2("result", data)

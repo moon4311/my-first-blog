@@ -118,11 +118,35 @@ class Connector:
         keys = str(tuple(insert_data.keys()))
         values = str(tuple(insert_data.values()))
         query = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
-        print("insert : ", query)
+        # print("insert : ", query)
         bool = True
         try:
             cur = conn.cursor()
             cur.execute(query)
+            conn.commit()
+        except Error as e:
+            print("ERROR : ", e)
+            bool = False
+        finally:
+            conn.close()
+        return bool
+
+    def insert_v2(self, table, insert_data):
+        """
+        :param table:  "table Name"
+        :param insert_data: {"id":"a", "Title":"ttt"}
+        :return: boolean
+        """
+        conn = self.connect()
+        bool = True
+        try:
+            cur = conn.cursor()
+            for data in insert_data:
+                keys = str(tuple(data.keys()))
+                values = str(tuple(data.values()))
+                query = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
+                cur.execute(query)
+                # print("insert : ", query)
             conn.commit()
         except Error as e:
             print("ERROR : ", e)

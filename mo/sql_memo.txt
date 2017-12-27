@@ -1,0 +1,24 @@
+
+# b >= 2p     7개 / 104, 113, 139, 143, 150, 158, 167
+select r.g_id,r.sequence,b,p from result r,
+(select g_id,max(sequence) sequence from result group by g_id ) a
+ where b >= P *2
+ AND r.g_id = a.g_id
+ AND r.sequence = a.sequence
+
+
+ # p >= 2b     2개 / 70, 160
+select r.g_id,r.sequence,b,p from result r,
+(select g_id,max(sequence) sequence from result group by g_id ) a
+ where p >= b *2
+ AND r.g_id = a.g_id
+ AND r.sequence = a.sequence
+
+
+# sequence 별 result 별 개수
+select sequence, sum(p),sum(b),sum(t) from
+(select g_id,sequence,result ,CASE when result='P' THEN 1 else 0 end p,
+CASE when result='B' THEN 1 else 0 end b,
+CASE when result='T' THEN 1 else 0 end t
+from result)
+ group by sequence

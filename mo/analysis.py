@@ -161,32 +161,3 @@ def synchro_rate():
                 score = score + 1
         setss.add((score, t1, t2))
         print(score, t1, t2)
-<<<<<<< HEAD
-
-    for a in setss:
-        pass
-
-b_val, p_val = 30, 34
-seq = b_val + p_val
-# seq =9
-patt = "BBPBBP"
-ro= result_by_sequence(seq)
-print(ro)
-ro = result_by_number(p_val, b_val)
-print("num : ", ro)
-ro = result_by_number_v2(p_val, b_val)
-print("num2 : ", ro)
-# ro = result_by_number_v2(p_val, b_val, patt[-1])
-# print("num3 : ", ro)
-ro = result_by_pattern(patt)
-print("pat1 : ", ro)
-ro = result_by_pattern_v2(patt)
-print("pat2 : ", ro)
-# find_pattern()
-# # synchro_rate()
-=======
-    lists = list(setss)
-    lists.sort()
-    for a in lists:
-        print(a)
->>>>>>> c038109e9566f08acc3f95d36d12e1b8775fc768

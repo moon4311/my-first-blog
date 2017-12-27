@@ -4,7 +4,7 @@ import pytesseract
 from PIL import (Image, ImageGrab)
 
 
-def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):
+def image_read(img_file, x1, y1, x2, y2, lang="eng+kor"):
     # 1.전처리 - 화면 크기 선택
     result = ""
     while result.find("완료") != 0:
@@ -41,18 +41,20 @@ def image_read(img_file,x1,y1,x2,y2,lang="eng+kor"):
 def set_image(bbox):
     img = ImageGrab.grab(bbox=bbox)
     img_np = np.array(img)
-    b,g,r = cv2.split(img_np)
+    b, g, r = cv2.split(img_np)
     return cv2.merge([r, g, b])
 
+set_image((130, 380, 460, 420))
 
 def check_status():    # Finish! 1
     """ STEP 1  상태 종료 확인 """
     result = ""
     while result.find("완료") < 0:
         img_np = 255 - set_image((130, 380, 460, 420))
+        print(type(img_np))
         cv2.imshow("Fr", img_np)
-        cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
-        result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
+        # cv2.imwrite("status.jpg", img_np)   ## 주석 풀어야 한다.
+        # result = pytesseract.image_to_string(Image.open("status.jpg"), lang='kor+eng')
         result = result.replace(" ", "")
         key = cv2.waitKey(1)
         if key == 27:

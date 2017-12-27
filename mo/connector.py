@@ -98,9 +98,9 @@ class Connector:
     def select_latest(self):
         query = "SELECT latest FROM result GROUP BY g_id"
         result = {"P": 0, "B": 0, "T": 0}
-        return self.select(query, {}), result
+        return self.select(query), result
 
-    def select(self, query, param):
+    def select(self, query, param={}):
         conn = self.connect()
         cur = conn.cursor()
         cur.execute(query, param)

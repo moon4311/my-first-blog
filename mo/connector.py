@@ -70,35 +70,39 @@ class Connector:
                     sql = sql + " AND "
         return sql
 
-    def select_all(self, table, param, column="*"):
+    def select_all(self, table, param, column="*", group=""):
         """
         :param table: Table Name
         :param param: Parameter  ex) {"id":"1", "title":"Test"} or {}
         :param column: ("id","name","data" ...)
+        :param group: " a, b, c"
         :return:
         """
         query = self.set_select_column(column) + table
         query = self.set_query_param(query, param.copy())
+        if group != "":
+            query = query + " GROUP BY " + group
         return self.select(query, param)
 
-    def select_limit(self, table, param, column="*", order_by="rowId desc", cnt=1):
+    def select_limit(self, table, param, column="*", group="", order_by="rowId desc", cnt=1):
         """
         :param table: Table Name
         :param param: Parameter  ex) {"id":"1", "title":"Test"}
         :param column: ("id","name","data" ...)
+        :param group : "a, b, c"
         :param order_by: column name "id"
         :param cnt: limit count
         :return:
         """
         query = self.set_select_column(column) + table
         query = self.set_query_param(query, param.copy())
+        if group != "":
+            query = query + " GROUP BY " + group
         query = query + " ORDER BY " + order_by + " LIMIT " + str(cnt)
         return self.select(query, param)
 
     def select_latest(self):
-        query = "SELECT latest FROM result GROUP BY g_id"
-        result = {"P": 0, "B": 0, "T": 0}
-        return self.select(query), result
+        return self.select("SELECT latest FROM result GROUP BY g_id")
 
     def select(self, query, param={}):
         conn = self.connect()
@@ -115,42 +119,24 @@ class Connector:
         :return: boolean
         """
         conn = self.connect()
-        keys = str(tuple(insert_data.keys()))
-        values = str(tuple(insert_data.values()))
-        query = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
-        # print("insert : ", query)
-        bool = True
+        boole = True
         try:
             cur = conn.cursor()
-            cur.execute(query)
-            conn.commit()
-        except Error as e:
-            print("ERROR : ", e)
-            bool = False
-        finally:
-            conn.close()
-        return bool
-
-    def insert_v2(self, table, insert_data):
-        """
-        :param table:  "table Name"
-        :param insert_data: {"id":"a", "Title":"ttt"}
-        :return: boolean
-        """
-        conn = self.connect()
-        bool = True
-        try:
-            cur = conn.cursor()
-            for data in insert_data:
-                keys = str(tuple(data.keys()))
-                values = str(tuple(data.values()))
-                query = "INSERT INTO " + table + " " + keys + " VALUES " + values + ";"
+            if type(insert_data) == dict:
+                keys = str(tuple(insert_data.keys()))
+                values = str(tuple(insert_data.values()))
+                query = "INSERT INTO " + table + " " + keys + " VALUES " + values
                 cur.execute(query)
-                # print("insert : ", query)
+            else:
+                for data in insert_data:
+                    keys = str(tuple(data.keys()))
+                    values = str(tuple(data.values()))
+                    query = "INSERT INTO " + table + " " + keys + " VALUES " + values
+                    cur.execute(query)
             conn.commit()
         except Error as e:
             print("ERROR : ", e)
-            bool = False
+            boole = False
         finally:
             conn.close()
-        return bool
+        return boole

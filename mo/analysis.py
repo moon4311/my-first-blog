@@ -19,20 +19,23 @@ def result_rate(dic):
     return result
 
 
-def result_by_number(p_cnt, b_cnt):  # A type
-    """
-    :param : result Table 의 ex 값과 현재 p,b 값
-    """
-    # rows = conn.select_all("result", {"ex_p": p_val, "ex_b": b_val})
-    query = "SELECT result, count(*) FROM result " \
-            + " WHERE ex_p = '" + str(p_cnt) + "' " \
-            + " AND ex_b = '" + str(b_cnt) + "' " \
-            + " group by result "
-    result = {"P": 0, "B": 0, "T": 0}
-    rows = conn.select(query)
+def rows_to_result(rows):
+    result = {}
     for row in rows:
-        result.__setitem__(row[0], row[1])
-    return result_rate(result)
+        result[row[0]] = row[1]
+    return result
+
+
+def result_by_seq(seq):  # 해당 sequence
+    query = "SELECT result, count(*)  FROM result WHERE  sequence = " + str(seq) + " GROUP BY result"
+    return result_rate(rows_to_result(conn.select(query)))
+
+
+def result_by_number(p_cnt, b_cnt):  # A type
+    """ :param : result Table 의 ex 값과 현재 p,b 값   """
+    query = "SELECT result, count(*) FROM result WHERE ex_p = '" + str(p_cnt) + "' " \
+            + " AND ex_b = '" + str(b_cnt) + "' GROUP BY result "
+    return result_rate(rows_to_result(conn.select(query)))
 
 
 def result_by_number_v2(p_cnt, b_cnt, last=""):  # B type
@@ -43,11 +46,7 @@ def result_by_number_v2(p_cnt, b_cnt, last=""):  # B type
             if st.count("P") > p_cnt | st.count("B") > b_cnt:
                 break
             elif (st.count("P") == p_cnt) & (st.count("B") == b_cnt):
-                if (last != "") & (st[-1] == last):
-                    d = row[0][a]
-                    result.__setitem__(d, result.get(d)+1)
-                    break
-                elif last == "":
+                if ((last != "") & (st[-1] == last)) | (last == ""):
                     d = row[0][a]
                     result.__setitem__(d, result.get(d) + 1)
                     break
@@ -73,13 +72,6 @@ def drow_table():
     img_np = cv2.merge([r, g, b])
     cv2.imwrite("test.jpg", img_np)
 
-
-def result_by_sequence(seq):  # 해당 sequence 에서 뭐가 나오는지
-    query = "select result, count(*)  from result where  sequence = " + str(seq) + " group by result"
-    result = {}
-    for row in conn.select(query):
-            result[row[0]] = row[1]
-    return result_rate(result)
 
 
 def result_by_pattern(pattern):

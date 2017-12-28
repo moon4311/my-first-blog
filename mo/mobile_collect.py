@@ -37,14 +37,13 @@ def image_read(img_file, x1, y1, x2, y2, lang="eng+kor"):
     return result
 
 
-
 def set_image(bbox):
     img = ImageGrab.grab(bbox=bbox)
     img_np = np.array(img)
     b, g, r = cv2.split(img_np)
     return cv2.merge([r, g, b])
 
-set_image((130, 380, 460, 420))
+# set_image((130, 380, 460, 420))
 
 def check_status():    # Finish! 1
     """ STEP 1  상태 종료 확인 """

@@ -14,6 +14,7 @@ import pc_collect as pc
 # 21:20  B5 B4 B6 B7 C2  C6  C1        C3 C2  B3
 
 pc.many_set_get("AGQ")
+# pc.many_set_get("AGIN")
 # pc.image_read_after_insert_detail()
 
 # pc.image_read_after_insert("C1", pc.B7) # 22:04

@@ -25,26 +25,27 @@ def set_image(bbox):
 
 
 def many_set_get(page):
-    if page == "AGIN":
+    if page == "AGQ":
         arr = (B1, B2, B3, B4, B5, B6, B7)
     else:
         arr = (B1, B2, B3, B4, B5, B6)
 
-    g_id = [[x, 1, 1] for x in range(len(arr))] # gid, switch, len
-    min = 80  # 최소 저장 개수
+    g_id = [[x, 1, 1] for x in range(len(arr))]  # gid, switch, len
+    min = 48  # 최소 저장 개수
     while True:
         cnt = 0
+        print(g_id)
         for g_set in arr:
             data = one_set_get(g_set)
             g_id[cnt][0] = data[0].get("g_id")
             g_id[cnt][2] = len(data)
-            print(g_id)
             if len(data) < 6:  # 새로 시작한 시점
                 g_id[cnt] = 1
 
             if g_id[cnt][1]:  # 새로 시작한 후
                 g_id[cnt][1] = one_set_insert(data, min)  # 인서트 후 0으로 변경
-                cnt = cnt + 1
+
+            cnt = cnt + 1
 
 
 def one_set_get(xywh=A):  ## ********
@@ -94,12 +95,13 @@ def one_set_insert(data, cnt):
     conn = connector.Connector()
     switch = 1
     if len(data) > int(cnt):
+        print("insert", data)
         conn.insert("result", data)
         switch = 0
     return switch
 
 
-many_set_get("AGIN")
+
 
 # def image_read_set(name, x1, y1, lang="eng"):
 #     # 1.전처리 - 화면 크기 선택

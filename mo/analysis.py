@@ -39,7 +39,8 @@ def result_by_number(p_cnt, b_cnt):  # A type
 
 
 def result_by_number_v2(p_cnt, b_cnt, last=""):  # B type
-    rows, result = conn.select_latest()
+    rows = conn.select_latest()
+    result = {"P": 0, "B": 0, "T": 0}
     for row in rows:
         for a in range(p_cnt+b_cnt, len(row[0])):
             st = row[0][:a]
@@ -73,7 +74,6 @@ def drow_table():
     cv2.imwrite("test.jpg", img_np)
 
 
-
 def result_by_pattern(pattern):
     """
     사용법 :   result_by_latest("BPBP") 이후 나올 확률 반환
@@ -83,15 +83,13 @@ def result_by_pattern(pattern):
             + " WHERE substr(latest,length(latest)-" + str(length) \
             + ", " + str(length) + ") = '" + pattern + "' " \
             + " group by result "
-    result = {"P": 0, "B": 0, "T": 0}
     rows = conn.select(query)
-    for row in rows:
-        result.__setitem__(row[0], row[1])
-    return result_rate(result)
+    return result_rate(rows_to_result(rows))
 
 
 def result_by_pattern_v2(pattern):
-    rows, result = conn.select_latest()
+    rows = conn.select_latest()
+    result = {"P": 0, "B": 0, "T": 0}
     for char in result:
         for row in rows:
             st = row[0]
@@ -100,28 +98,33 @@ def result_by_pattern_v2(pattern):
 
 
 def cut_pattern(cnt):
-    rows, result = conn.select_latest()
+    rows = conn.select_latest()
     arr = []
-    tu = {}
+    result = {}
     for row in rows:
         length = len(row[0])
-        latest = str(row[0])
+        latest = str(row[0]).replace("T","")
+        # latest = str(row[0])
         for s in range(0, length, cnt):
             pattern = latest[s: s + cnt]
             if len(pattern) == cnt:
                 arr.append(pattern)
     for ar in arr:
-        if tu.__contains__(ar):     tu.__setitem__(ar, tu.get(ar)+1)
-        else:        tu[ar] = 1
-    return tu
+        if result.__contains__(ar):
+            result.__setitem__(ar, result.get(ar)+1)
+        else:
+            result[ar] = 1
+    print(result)
+    return result
 
 
 def find_pattern():
-    rows, result = conn.select_latest()
+    rows = conn.select_latest()
     dic, result = {}, {}
     for row in combinations(rows, 2):
-        t1, t2 = row[0][0], row[1][0]
-        for a in range(5, 6):  # 글자수
+        # t1, t2 = row[0][0], row[1][0]
+        t1, t2 = row[0][0].replace("T",""), row[1][0].replace("T","")
+        for a in range(18, 19):  # 글자수
             for b in range(len(t1) - a):  # A의 위치
                 str_a = t1[b:a + b]
                 for c in range(len(t2) - a):  # B의 위치
@@ -132,17 +135,18 @@ def find_pattern():
                         else:
                             dic[str_a] = 1
     for a in dic: #일정 개수 이상인 경우 선별
-        if dic.get(a) > 100:
+        if dic.get(a) > 1:
             result[a] = dic.get(a)
     print(result)
 
 
 def synchro_rate():
-    rows, result = conn.select_latest()
+    rows = conn.select_latest()
     setss = set()
     for row in combinations(rows, 2):
         score = 0
-        t1, t2 = row[0][0], row[1][0]
+        # t1, t2 = row[0][0], row[1][0]
+        t1, t2 = row[0][0].replace("T", ""), row[1][0].replace("T", "")
         lt1, lt2 = len(t1), len(t2)
         if lt1 > lt2:
             cnt = lt2
@@ -152,4 +156,5 @@ def synchro_rate():
             if t1[a] == t2[a]:
                 score = score + 1
         setss.add((score, t1, t2))
-        print(score, t1, t2)
+        if score > 32:  # 32개 이상 같은거
+            print(score, row)

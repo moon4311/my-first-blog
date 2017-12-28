@@ -24,20 +24,27 @@ def set_image(bbox):
     return cv2.merge([r, g, b])
 
 
-def many_set_get():
-    switch = (0, 0, 0, 0, 0, 0, 0)
-    arr = (B1, B2, B3, B4, B5, B6, B7)
+def many_set_get(page):
+    if page == "AGIN":
+        arr = (B1, B2, B3, B4, B5, B6, B7)
+    else:
+        arr = (B1, B2, B3, B4, B5, B6)
+
+    g_id = [[x, 1, 1] for x in range(len(arr))] # gid, switch, len
+    min = 80  # 최소 저장 개수
     while True:
         cnt = 0
         for g_set in arr:
             data = one_set_get(g_set)
-            if len(data) < 6: # 새로 시작한 시점
-                switch[cnt] = 1
+            g_id[cnt][0] = data[0].get("g_id")
+            g_id[cnt][2] = len(data)
+            print(g_id)
+            if len(data) < 6:  # 새로 시작한 시점
+                g_id[cnt] = 1
 
-            if switch[cnt]: # 새로 시작한 후
-                switch[cnt] = one_set_insert(data)  # 인서트 후 0으로 변경
+            if g_id[cnt][1]:  # 새로 시작한 후
+                g_id[cnt][1] = one_set_insert(data, min)  # 인서트 후 0으로 변경
                 cnt = cnt + 1
-
 
 
 def one_set_get(xywh=A):  ## ********
@@ -76,20 +83,23 @@ def one_set_get(xywh=A):  ## ********
             latest = latest + result
             row = {"g_id": g_id, "sequence": seq, "result": result, "latest": latest,
                    "ex_p": ex_p, "ex_b": ex_b, "P": p, "B": b, "T": t}
-            print(row)
+            # print(row)
             data.append(row)
             ex_p, ex_b = p, b
             seq = seq + 1
     return data
 
 
-def one_set_insert(data):
+def one_set_insert(data, cnt):
     conn = connector.Connector()
     switch = 1
-    if len(data) > 40:
+    if len(data) > int(cnt):
         conn.insert("result", data)
         switch = 0
     return switch
+
+
+many_set_get("AGIN")
 
 # def image_read_set(name, x1, y1, lang="eng"):
 #     # 1.전처리 - 화면 크기 선택

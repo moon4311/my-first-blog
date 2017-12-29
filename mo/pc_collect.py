@@ -8,7 +8,8 @@ from PIL import (Image, ImageGrab)
 width, height = 579, 171
 w, h = 170, 103
 A = (107, 747, 327, 877)
-B1 = (790, 228, 790+w, 228+h)
+# B1 = (790, 228, 790+w, 228+h)
+B1 = (790, 83, 790+w, 83+h)
 B2 = (B1[0] - width, B1[1] + height, B1[2] - width, B1[3] + height)
 B3 = (B1[0], B2[1], B1[2], B2[3])
 B4 = (B2[0], B2[1] + height, B2[2], B2[3] + height)
@@ -49,6 +50,26 @@ def many_set_get(page):
                 one_sircle_insert(data[-1])
                 g_id[cnt][2] = len(data)
             cnt = cnt + 1
+
+def image_get(xywh=A):  ## ********
+    """
+    :param xywh:  A ,  B1 ~ B7
+    :return:
+    """
+    while True:
+        img = set_image(xywh)
+        cv2.imshow("gramce",img)
+        k = cv2.waitKey(10)
+    data = []
+    # if xywh == A:
+    #     w2, h2 = 22, 22
+    # else:
+    #     w2, h2 = 17, 17
+    # for i in range(0, 10):
+    #     x2 = w2 * i
+    #     for j in range(0, 6):
+    #         y2 = h2 * j
+    #         c, g, r = img[y2 + 9:y2 + 10, x2 + 3:x2 + 4][0][0]  # 한칸 크기로 줄임
 
 
 def one_set_get(xywh=A):  ## ********

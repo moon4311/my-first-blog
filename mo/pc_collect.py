@@ -26,18 +26,19 @@ def set_image(bbox):
 
 def many_set_get(page):
     if page == "AGQ":
-        arr = (B1, B2, B3, B4, B5, B6, B7)
+        # arr = (B1, B2, B3, B4, B5, B6, B7)
+        arr = (B1, B2, B5, B6, B7)
     else:
         arr = (B1, B2, B3, B4, B5)
 
     g_id = [[x, 1, 1] for x in range(len(arr))]  # gid, switch, len
-    min = 48  # 최소 저장 개수
+    min = 7  # 최소 저장 개수
     while True:
         cnt = 0
         print(g_id)
         for g_set in arr:
             data = one_set_get(g_set)
-            if len(data) < 6:  # 새로 시작한 시점
+            if len(data) < 2:  # 새로 시작한 시점
                 g_id[cnt][1] = 1
             elif g_id[cnt][1]:  # 새로 시작한 후
                 g_id[cnt][0] = data[0].get("g_id")

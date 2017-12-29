@@ -26,8 +26,8 @@ def set_image(bbox):
 
 def many_set_get(page):
     if page == "AGQ":
-        # arr = (B1, B2, B3, B4, B5, B6, B7)
-        arr = (B1, B2, B5, B6, B7)
+        arr = (B1, B2, B3, B4, B5, B6, B7)
+        # arr = (B1, B2, B5, B6, B7)
     else:
         arr = (B1, B2, B3, B4, B5)
 

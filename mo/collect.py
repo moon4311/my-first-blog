@@ -1,4 +1,4 @@
-import pc_collect as pc
+import collect_short as pc
 
 
 # 바깥 화면 40~47개

@@ -31,16 +31,20 @@ def result_by_seq(seq):  # 해당 sequence
     return result_rate(rows_to_result(conn.select(query)))
 
 
-def result_by_number(p_cnt, b_cnt):  # A type
+def result_by_number(r_bp):  # A type
     """ :param : result Table 의 ex 값과 현재 p,b 값   """
-    query = "SELECT result, count(*) FROM result WHERE ex_p = '" + str(p_cnt) + "' " \
-            + " AND ex_b = '" + str(b_cnt) + "' GROUP BY result "
+    b_cnt = str(r_bp[0])
+    p_cnt = str(r_bp[1])
+    query = "SELECT result, count(*) FROM result WHERE ex_p = '" + p_cnt + "' " \
+            + " AND ex_b = '" + b_cnt + "' GROUP BY result ORDER BY result"
     return result_rate(rows_to_result(conn.select(query)))
 
 
-def result_by_number_v2(p_cnt, b_cnt, last=""):  # B type
+def result_by_number_v2(r_bp, last=""):  # B type
+    b_cnt = int(r_bp[0])
+    p_cnt = int(r_bp[1])
     rows = conn.select_latest()
-    result = {"P": 0, "B": 0, "T": 0}
+    result = {"B": 0, "P": 0, "T": 0}
     for row in rows:
         for a in range(p_cnt+b_cnt, len(row[0])):
             st = row[0][:a]
@@ -89,7 +93,7 @@ def result_by_pattern(pattern):
 
 def result_by_pattern_v2(pattern):
     rows = conn.select_latest()
-    result = {"P": 0, "B": 0, "T": 0}
+    result = {"B": 0, "P": 0, "T": 0}
     for char in result:
         for row in rows:
             st = row[0]

@@ -8,8 +8,8 @@ from PIL import (Image, ImageGrab)
 width, height = 579, 171
 w, h = 170, 103
 A = (107, 747, 327, 877)
-# B1 = (790, 228, 790+w, 228+h)
-B1 = (790, 83, 790+w, 83+h)
+B1 = (790, 228, 790+w, 228+h)
+# B1 = (790, 83, 790+w, 83+h)
 B2 = (B1[0] - width, B1[1] + height, B1[2] - width, B1[3] + height)
 B3 = (B1[0], B2[1], B1[2], B2[3])
 B4 = (B2[0], B2[1] + height, B2[2], B2[3] + height)
@@ -47,8 +47,12 @@ def many_set_get(page):
                 g_id[cnt][2] = len(data)
             elif (g_id[cnt][1] == 0) & (len(data) > g_id[cnt][2]):
                 data[-1].__setitem__("g_id", g_id[cnt][0])
-                one_sircle_insert(data[-1])
+                one_circle_insert(data[-1])
                 g_id[cnt][2] = len(data)
+            # elif (g_id[cnt][1] == 0 ) & (g_id[cnt][2] >= 54):
+            #     data[-1].__setitem__("g_id", g_id[cnt][0])
+            #     data[-1].__setitem__("sequence", g_id[cnt][2])
+            #     latest 값 , p값 ,b값
             cnt = cnt + 1
 
 def image_get(xywh=A):  ## ********
@@ -70,6 +74,21 @@ def image_get(xywh=A):  ## ********
     #     for j in range(0, 6):
     #         y2 = h2 * j
     #         c, g, r = img[y2 + 9:y2 + 10, x2 + 3:x2 + 4][0][0]  # 한칸 크기로 줄임
+
+
+def result_get(cnt=6):
+    bp = [(770,745,800,762),(770,762,800,779)]
+    r_bp = []
+    for bbox in bp:
+        img = set_image(bbox)  # P
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 제거해도 숫자인식 문제없는지 확인
+        img = cv2.pyrUp(img)
+        img = cv2.GaussianBlur(img, (3, 3), 0)  # http://bskyvision.com/24
+        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+        img = cv2.filter2D(img, -1, kernel)
+        cv2.imwrite("result.jpg",img)
+        r_bp.append(pytesseract.image_to_string(Image.open("result.jpg"), config="--psm 10"))
+    return r_bp
 
 
 def one_set_get(xywh=A):  ## ********
@@ -125,6 +144,7 @@ def one_set_insert(data, cnt):
     return switch
 
 
-def one_sircle_insert(data):
+def one_circle_insert(data):
     conn = connector.Connector()
     conn.insert("result", data)
+

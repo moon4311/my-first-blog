@@ -8,8 +8,8 @@ from PIL import (Image, ImageGrab)
 width, height = 579, 171
 w, h = 170, 103
 A = (107, 747, 327, 877)
-B1 = (790, 228, 790+w, 228+h)
-# B1 = (790, 83, 790+w, 83+h)
+# B1 = (790, 228, 790+w, 228+h)
+B1 = (790, 83, 790+w, 83+h)
 B2 = (B1[0] - width, B1[1] + height, B1[2] - width, B1[3] + height)
 B3 = (B1[0], B2[1], B1[2], B2[3])
 B4 = (B2[0], B2[1] + height, B2[2], B2[3] + height)

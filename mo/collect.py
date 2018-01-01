@@ -13,7 +13,7 @@ import collect_short as pc
 # 20:42 B2 B4 B5 B6 C1 C6 B2 C5 B3 B1
 # 21:20  B5 B4 B6 B7 C2  C6  C1        C3 C2  B3
 
-pc.many_set_get("AGQ")
+pc.many_set_get("AGIN")
 # pc.many_set_get("AGIN")
 # pc.image_read_after_insert_detail()
 

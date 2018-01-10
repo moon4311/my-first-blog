@@ -18,12 +18,6 @@ B6 = (B2[0], B4[1] + height, B2[2], B4[3] + height)
 B7 = (B1[0], B6[1], B1[2], B6[3])
 
 
-def set_image(bbox):
-    img = ImageGrab.grab(bbox=bbox)
-    img_np = np.array(img)
-    b, g, r = cv2.split(img_np)
-    return cv2.merge([r, g, b])
-
 
 def many_set_get(page):
     if page == "AGQ":
@@ -55,6 +49,7 @@ def many_set_get(page):
             #     latest 값 , p값 ,b값
             cnt = cnt + 1
 
+
 def image_get(xywh=A):  ## ********
     """
     :param xywh:  A ,  B1 ~ B7
@@ -65,19 +60,10 @@ def image_get(xywh=A):  ## ********
         cv2.imshow("gramce",img)
         k = cv2.waitKey(10)
     data = []
-    # if xywh == A:
-    #     w2, h2 = 22, 22
-    # else:
-    #     w2, h2 = 17, 17
-    # for i in range(0, 10):
-    #     x2 = w2 * i
-    #     for j in range(0, 6):
-    #         y2 = h2 * j
-    #         c, g, r = img[y2 + 9:y2 + 10, x2 + 3:x2 + 4][0][0]  # 한칸 크기로 줄임
 
 
 def result_get(cnt=6):
-    bp = [(770,745,800,762),(770,762,800,779)]
+    bp = [(770,745,800,762), (770,762,800,779)]
     r_bp = []
     for bbox in bp:
         img = set_image(bbox)  # P
@@ -90,6 +76,11 @@ def result_get(cnt=6):
         r_bp.append(pytesseract.image_to_string(Image.open("result.jpg"), config="--psm 10"))
     return r_bp
 
+
+def set_image(bbox):
+    img = ImageGrab.grab(bbox=bbox)
+    b, g, r = cv2.split(np.array(img))
+    return cv2.merge([r, g, b])
 
 def one_set_get(xywh=A):  ## ********
     """
@@ -106,6 +97,7 @@ def one_set_get(xywh=A):  ## ********
         w2, h2 = 22, 22
     else:
         w2, h2 = 17, 17
+
     for i in range(0, 10):
         x2 = w2 * i
         for j in range(0, 6):
@@ -134,17 +126,16 @@ def one_set_get(xywh=A):  ## ********
     return data
 
 
-def one_set_insert(data, cnt):
+def one_set_insert(data, cnt): # 여러개 값
     conn = connector.Connector()
     switch = 1
     if len(data) > int(cnt):
-        print("insert", cnt, data)
         conn.insert("result", data)
         switch = 0
     return switch
 
 
-def one_circle_insert(data):
+def one_circle_insert(data):  # 한개 값
     conn = connector.Connector()
     conn.insert("result", data)
 

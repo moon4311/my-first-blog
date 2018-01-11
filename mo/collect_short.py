@@ -8,8 +8,8 @@ from PIL import (Image, ImageGrab)
 width, height = 579, 171
 w, h = 170, 103
 A = (107, 747, 327, 877)
-# B1 = (790, 228, 790+w, 228+h)
-B1 = (790, 83, 790+w, 83+h)
+B1 = (790, 228, 790+w, 228+h)  # PC
+# B1 = (790, 83, 790+w, 83+h) # NOTE
 B2 = (B1[0] - width, B1[1] + height, B1[2] - width, B1[3] + height)
 B3 = (B1[0], B2[1], B1[2], B2[3])
 B4 = (B2[0], B2[1] + height, B2[2], B2[3] + height)
@@ -27,13 +27,13 @@ def many_set_get(page):
         arr = (B1, B2, B3, B4, B5)
 
     g_id = [[x, 1, 1] for x in range(len(arr))]  # gid, switch, len
-    min = 7  # 최소 저장 개수
+    min = 3  # 최소 저장 개수
     while True:
         cnt = 0
         print(g_id)
         for g_set in arr:
             data = one_set_get(g_set)
-            if len(data) < 2:  # 새로 시작한 시점
+            if len(data) < min:  # 새로 시작한 시점
                 g_id[cnt][1] = 1
             elif g_id[cnt][1]:  # 새로 시작한 후
                 g_id[cnt][0] = data[0].get("g_id")
@@ -66,9 +66,7 @@ def result_get(cnt=6):
     bp = [(770,745,800,762), (770,762,800,779)]
     r_bp = []
     for bbox in bp:
-        img = set_image(bbox)  # P
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 제거해도 숫자인식 문제없는지 확인
-        img = cv2.pyrUp(img)
+        img = cv2.pyrUp(cv2.cvtColor(set_image(bbox), cv2.COLOR_BGR2GRAY))
         img = cv2.GaussianBlur(img, (3, 3), 0)  # http://bskyvision.com/24
         kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
         img = cv2.filter2D(img, -1, kernel)
@@ -78,8 +76,7 @@ def result_get(cnt=6):
 
 
 def set_image(bbox):
-    img = ImageGrab.grab(bbox=bbox)
-    b, g, r = cv2.split(np.array(img))
+    b, g, r = cv2.split(np.array(ImageGrab.grab(bbox=bbox)))
     return cv2.merge([r, g, b])
 
 def one_set_get(xywh=A):  ## ********
@@ -103,7 +100,6 @@ def one_set_get(xywh=A):  ## ********
         for j in range(0, 6):
             y2 = h2 * j
             result = ""
-            # c, g, r = img[y2 + 8:y2 + 9, x2 + 3:x2 + 4][0][0]  # 한칸 크기로 줄임
             c, g, r = img[y2 + 9:y2 + 10, x2 + 3:x2 + 4][0][0]  # 한칸 크기로 줄임
             if (r > 100) & (g > 100):
                 break

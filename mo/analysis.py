@@ -6,7 +6,7 @@ import cv2
 conn = connector.Connector()
 # A type : All data
 # B type : latest data
-
+rows_1p = ""
 
 def result_rate(dic):
     result = dic.copy()
@@ -127,7 +127,7 @@ def find_pattern():
     dic, result = {}, {}
     for row in combinations(rows, 2):
         # t1, t2 = row[0][0], row[1][0]
-        t1, t2 = row[0][0].replace("T",""), row[1][0].replace("T","")
+        t1, t2 = row[0][0].strip("T"), row[1][0].strip("T")
         for a in range(18, 19):  # 글자수
             for b in range(len(t1) - a):  # A의 위치
                 str_a = t1[b:a + b]
@@ -150,7 +150,7 @@ def synchro_rate():
     for row in combinations(rows, 2):
         score = 0
         # t1, t2 = row[0][0], row[1][0]
-        t1, t2 = row[0][0].replace("T", ""), row[1][0].replace("T", "")
+        t1, t2 = row[0][0].strip("T"), row[1][0].strip("T")
         lt1, lt2 = len(t1), len(t2)
         if lt1 > lt2:
             cnt = lt2

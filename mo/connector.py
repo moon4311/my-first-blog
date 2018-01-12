@@ -43,15 +43,7 @@ class Connector:
         :param param: ("id","name","date" ... )
         :return: query
         """
-        param_str = ""
-        if type(param) == "str":
-            param_str = "*"
-        else:
-            for column in param:
-                param_str = param_str + " " + column
-                if column != param[len(param)-1]:
-                    param_str = param_str + ","
-        return "SELECT" + param_str + " FROM "
+        return "SELECT" + self.set_query_column(param) + " FROM "
 
     def set_query_param(self, sql, param):
         """
@@ -78,8 +70,7 @@ class Connector:
         :param group: " a, b, c"
         :return:
         """
-        query = self.set_select_column(column) + table
-        query = self.set_query_param(query, param.copy())
+        query = self.set_query_param(self.set_select_column(column) + table, param.copy())
         if group != "":
             query = query + " GROUP BY " + group
         return self.select(query, param)
@@ -94,14 +85,17 @@ class Connector:
         :param cnt: limit count
         :return:
         """
-        query = self.set_select_column(column) + table
-        query = self.set_query_param(query, param.copy())
+        query = self.set_query_param(self.set_select_column(column) + table, param.copy())
         if group != "":
             query = query + " GROUP BY " + group
         query = query + " ORDER BY " + order_by + " LIMIT " + str(cnt)
         return self.select(query, param)
 
     def select_latest(self):
+        return self.select("SELECT latest FROM result GROUP BY g_id")
+
+    def select_latest_case(self,case):
+        query = "SELECT latest FROM result WHERE "
         return self.select("SELECT latest FROM result GROUP BY g_id")
 
     def select(self, query, param={}):

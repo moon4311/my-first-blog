@@ -42,3 +42,6 @@ seq 32 : B -   62     / 93 (55%) / 13
   BPPBPB	12341	2		BPPBPB	37	1
   BBBPBB	11740	3		BBBPBB	34	2
 
+
+
+b 13개 일때 B 52% , P 48%

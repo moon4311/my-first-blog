@@ -6,6 +6,7 @@ import connector
 conn = connector.Connector()
 rows, result = conn.select_latest()
 
+
 def drow_graph():
     xs, ys, zs, cs= [], [], [], []
     for row in rows:

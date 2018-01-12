@@ -1,0 +1,23 @@
+P로 시작한 경우
+
+select a.p,b.b,
+	  round(a.p/round(a.p+b.b,2)*100,1) pr,
+	  round(b.b/round(a.p+b.b,2)*100,1) br , a.ex_p,
+case when a.p > (b.b +30) then 'P'
+	 when a.p < (b.b -30) then 'B'
+end rst
+from (select ex_p,result,count(*) P from result
+	  where result = 'P'
+	  AND g_id in(select g_id from result where sequence=1 and result='P')
+	  group by result,ex_p) a,
+	(select result,ex_p,count(*) B from result
+	where result = 'B'
+	AND g_id in(select g_id from result where sequence=1 and result='P')
+	group by result,ex_p) b
+where a.ex_p = b.ex_p
+order by  5
+
+P가 6,7,16,22,23,24,27,28 일때 B
+B가 6,9,10,20,22,25,26,29 일때 B
+
+P가 30,31 일때 P

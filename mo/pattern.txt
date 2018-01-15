@@ -26,6 +26,10 @@ seq 32 : B -   62     / 93 (55%) / 13
  P
  38   5 : 2 : 0
 
+ B = (2*p) + 1 일때 B
+
+
+
 
  P > B  65건
  P
@@ -35,8 +39,6 @@ seq 32 : B -   62     / 93 (55%) / 13
  BPBBB B 63%
 
  B PP BB PPP BBB P BBB P BB PP
-
-
 
 
   BPPBPB	12341	2		BPPBPB	37	1
